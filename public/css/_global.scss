@@ -1,0 +1,14 @@
+html, body {
+    overflow-x: hidden;
+    width: 100vw;
+    height: 100vh;
+
+    font-family: Lexend;
+}
+html, body, h1, h2, h3, h4, h5, h6, p, button, div, a, input, select, option, textarea {
+    margin: 0;
+    padding: 0;
+    border: 0px;
+    box-sizing: border-box;
+    text-decoration: none;
+}
