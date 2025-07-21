@@ -1,10 +1,10 @@
-import { GBnDifficulty, GBnPlayerAll, GBnStatsPlayerTierClearCounts } from "./api.goldberries.js";
+import { GBnDifficulty, GBnStatsPlayerTierClearCounts } from "./api.goldberries.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-    routine();
+    main();
 })
 
-async function routine() {
+async function main() {
     const players = await PPCalc();
     const container = document.getElementById("leaderboard");
     players.forEach((p, i) => {

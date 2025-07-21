@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/css/player.css">
+{% endblock %}
+
+{% block javascripts %}
+<script type="module" src="/js/player.js"></script>
+{% endblock %}
+
+{% block body %}
+<section class="player">
+    <div class="landing">
+        <p id="status" class="status"></p>
+        <div class="playercard">
+            <p id="playername"></p>
+        </div>
+        <table id="showcase" class="showcase">
+            <tr>
+                <th></th>
+                <th>Map</th>
+                <th>Tier</th>
+                <th>PP (Raw)</th>
+                <th>PP (Weighted)</th>
+                <th>Date achieved</th>
+            </tr>
+        </table>
+    </div>
+</section>
+<div id="player-id" data-player-id={{ id }}></div>
+{% endblock %}
