@@ -54,7 +54,7 @@ export default function HomePage() {
         <table className="leaderboard">
           <thead>
             <tr>
-              <th>#</th>
+              <th></th>
               <th>Player</th>
               <th>PP</th>
               <th>Clears</th>
@@ -64,9 +64,9 @@ export default function HomePage() {
             {players.map((p, i) => (
               <tr key={p.player.id}>
                 <td>#{i + 1}</td>
-                <td>{p.player.name}</td>
+                <td><a href={`/player/${p.player.id}`}>{p.player.name}</a></td>
                 <td>{p.pp_total.toFixed(0)}</td>
-                <td>{p.clears.length}</td>
+                <td>{p.clears.join(', ')}</td>
               </tr>
             ))}
           </tbody>
