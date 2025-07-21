@@ -2,13 +2,15 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Pawjob Digital</title>
+        <title>CelestePerformance</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
        
        <link rel="stylesheet" href="/css/base.css">
         {% block stylesheets %}
         {% endblock %}
 
+        <script src="https://cdn.jsdelivr.net/npm/axios@1.10.0/dist/axios.min.js"></script>
+        <script type="module" src="/js/.js"></script>
         {% block javascripts %}
         {% endblock %}
     </head>
@@ -18,8 +20,8 @@
                 <h1><span class="col2">Celeste</span><span class="col1">Performance</span></h1>
                 <div class="nav">
                     <div><a href={{ path('home') }}>{{ 'base.nav.home'|trans }}</a></div>
-                     <div><a href={{ path('home') }}>{{ 'base.nav.search'|trans }}</a></div>
-                    <div><a href={{ path('home') }}>{{ 'base.nav.about'|trans }}</a></div>
+                     <div><a href={{ path('search') }}>{{ 'base.nav.search'|trans }}</a></div>
+                    <div><a href={{ path('about') }}>{{ 'base.nav.about'|trans }}</a></div>
                 </div>
             </div>
             <div class="lang">

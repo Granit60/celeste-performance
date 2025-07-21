@@ -4,10 +4,27 @@
 <link rel="stylesheet" href="/css/home.css">
 {% endblock %}
 
+{% block javascripts %}
+{% endblock %}
+
 {% block body %}
 <section class="home">
     <div class="landing">
-        Home
+        <p id="status" class="status"></p>
+        <table id="leaderboard" class="leaderboard">
+            <tr>
+                <th></th>
+                <th>Player</th>
+                <th>PP</th>
+                <th>Clears</th>
+            </tr>
+        </table>
+        <div class="stats">
+            <p id="showing" class="showing"></p>
+            <p id="top10"></p>
+            <p id="top100"></p>
+            <p id="top1000"></p>
+        </div>
     </div>
 </section>
 {% endblock %}
