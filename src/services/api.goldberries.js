@@ -11,7 +11,7 @@ export const GBnPlayer = ( id ) => {
 
 
 export const GBnPlayerSubmissions = ( id ) => {
-    return axios.get(`${api}/player/submissions?player_id=${id}`)
+    return axios.get(`${api}/player/submissions?arbitrary=true&archived=true&player_id=${id}`)
         .then(response => response.data)
         .catch(error => {
             console.error('Error fetching GBnPlayerSubmissions:', error);
