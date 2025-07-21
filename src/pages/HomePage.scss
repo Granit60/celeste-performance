@@ -1,0 +1,30 @@
+@import "../css/_main.scss";
+
+.home {
+    height: 90%;
+    .landing {
+        height: 100%;
+        position: relative;
+        background-color: $col-brand-1;
+        overflow: hidden;
+        color: $col-bg-1;
+        padding: 3%;
+        .leaderboard {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.2rem;
+            tr {
+                th {
+                    padding: .5%;
+                    text-align: left;
+                }
+                td {
+                    padding: .5%;
+                }
+            }
+        }
+        .stats {
+            margin-top: 2%;
+        }
+    } 
+}

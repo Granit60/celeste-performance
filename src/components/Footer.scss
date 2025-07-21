@@ -1,0 +1,16 @@
+@import "../css/_main.scss";
+
+footer {
+    position: fixed;
+    bottom: .5rem;
+    left: 0;
+
+    font-size: .8rem;
+    font-weight: $font-weight-medium-bold;
+    color: $col-bg-1;
+    width: 100%;
+    text-align: center;
+    text-shadow: 2px 2px 1px $col-brand-1;
+
+    z-index: 100;
+}

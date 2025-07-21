@@ -1,0 +1,46 @@
+html, body {
+  overflow-x: hidden;
+  width: 100vw;
+  height: 100vh;
+  font-family: Lexend;
+  background-color: #433757;
+}
+
+html, body, h1, h2, h3, h4, h5, h6, p, button, div, a, input, select, option, textarea {
+  margin: 0;
+  padding: 0;
+  border: 0px;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+@font-face {
+  font-family: Lexend;
+  src: url("/font/Lexend-VariableFont_wght.ttf");
+}
+.home {
+  height: 90%;
+}
+.home .landing {
+  height: 100%;
+  position: relative;
+  background-color: #433757;
+  overflow: hidden;
+  color: white;
+  padding: 3%;
+}
+.home .landing .leaderboard {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.2rem;
+}
+.home .landing .leaderboard tr th {
+  padding: 0.5%;
+  text-align: left;
+}
+.home .landing .leaderboard tr td {
+  padding: 0.5%;
+}
+.home .landing .stats {
+  margin-top: 2%;
+}/*# sourceMappingURL=HomePage.css.map */
