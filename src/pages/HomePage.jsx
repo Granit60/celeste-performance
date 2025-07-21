@@ -7,6 +7,10 @@ export default function HomePage() {
   const [stats, setStats] = useState({});
   const [loading, setLoading] = useState('Loading leaderboard...');
 
+  const pp_x = parseFloat( import.meta.env.VITE_PP_X);
+  const pp_w = parseFloat(import.meta.env.VITE_PP_W);
+  const pp_n = parseInt(import.meta.env.VITE_PP_N);
+
   useEffect(() => {
     async function fetchData() {
       setLoading('Fetching player stats...');
@@ -26,8 +30,8 @@ export default function HomePage() {
           for (let i = 0; i < count; i++) sortClears.push(sort);
         }
 
-        const top10 = sortClears.sort((a, b) => b - a).slice(0, 10);
-        const top10pp = top10.map((t, i) => ( t**1.2 * 100 * (0.8 ** i)))
+        const top10 = sortClears.sort((a, b) => b - a).slice(0, pp_n);
+        const top10pp = top10.map((t, i) => ( t**pp_x * 100 * (pp_w ** i)))
         const total = top10pp.reduce((acc, curr) => acc + curr, 0);
 
         return { player, clears: top10, pp: top10pp, pp_total: total };

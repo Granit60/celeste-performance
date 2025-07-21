@@ -1,5 +1,5 @@
 import axios from "axios";
-const api = "https://goldberries.net/api";
+const api = import.meta.env.VITE_GOLDBERRIES_API;
 
 export const GBnPlayer = ( id ) => {
     return axios.get(`${api}/player?id=${id}`)

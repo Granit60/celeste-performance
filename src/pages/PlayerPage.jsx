@@ -10,6 +10,10 @@ export default function PlayerPage() {
   const [player, setPlayer] = useState(null);
   const [clears, setClears] = useState([]);
 
+  const pp_x = parseFloat( import.meta.env.VITE_PP_X);
+  const pp_w = parseFloat(import.meta.env.VITE_PP_W);
+  const pp_n = parseInt(import.meta.env.VITE_PP_N);
+
   useEffect(() => {
     async function fetchPlayer() {
       setStatus('Fetching player data...');
@@ -22,15 +26,16 @@ export default function PlayerPage() {
 
       setStatus('Fetching player submissions...');
       const playerClears = await GBnPlayerSubmissions(id);
+      console.log(playerClears);
 
-      setStatus('Sorting top 10...');
+      setStatus(`Sorting top ${pp_n}...`);
       const topClears = playerClears
         .sort((a, b) => b.challenge.difficulty.sort - a.challenge.difficulty.sort)
-        .slice(0, 10)
+        .slice(0, pp_n)
         .map((c, i) => {
           const sort = c.challenge.difficulty.sort;
-          const ppRaw = Math.round(sort ** 1.2 * 100);
-          const ppWeighted = Math.round(ppRaw * (0.8 ** i));
+          const ppRaw = Math.round(sort ** pp_x * 100);
+          const ppWeighted = Math.round(ppRaw * (pp_w ** i));
           const formattedDate = format(new Date(c.date_achieved), 'M/d/yyyy');
           const ago = differenceInDays(new Date(), new Date(c.date_achieved));
 
@@ -64,8 +69,8 @@ export default function PlayerPage() {
           for (let i = 0; i < count; i++) sortClears.push(sort);
         }
 
-        const top10 = sortClears.sort((a, b) => b - a).slice(0, 10);
-        const top10pp = top10.map((t, i) => ( t**1.2 * 100 * (0.8 ** i)))
+        const top10 = sortClears.sort((a, b) => b - a).slice(0, pp_n);
+        const top10pp = top10.map((t, i) => ( t**pp_x * 100 * (pp_w ** i)))
         const total = top10pp.reduce((acc, curr) => acc + curr, 0);
 
         return { id: player.id, pp_total: total };
