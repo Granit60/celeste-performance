@@ -26,4 +26,6 @@ dist-ssr
 
 #
 *.css
+**/*.css
 *.css.map
+**/*.css.map
