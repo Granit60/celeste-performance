@@ -7,7 +7,7 @@ import "./PlayerPage.css";
 
 export default function PlayerPage() {
   const { id } = useParams();
-  const [status, setStatus] = useState('Loading player data...');
+  const [status, setStatus] = useState('');
   const [player, setPlayer] = useState(null);
   const [clears, setClears] = useState([]);
 
@@ -17,7 +17,7 @@ export default function PlayerPage() {
 
   useEffect(() => {
     async function fetchPlayer() {
-      setStatus('Fetching player data...');
+      setStatus('Fetching player info...');
       const p = await GBnPlayer(id);
       if (!p) {
         setStatus('Error fetching player data. Does this user exist?');
@@ -54,11 +54,11 @@ export default function PlayerPage() {
 
       setClears(topClears)
 
-      setStatus('Fetching player info...');
+      setStatus('Fetching players info...');
       const allPlayerInfo = await GBnPlayerAll();
-      setStatus('Fetching player stats...');
+      setStatus('Fetching players stats...');
       const players = await GBnStatsPlayerTierClearCounts();
-      setStatus('Fetching tiers...');
+      setStatus('Fetching tiers info...');
       const difficulties = await GBnDifficulty();
 
       setStatus('Calculating global rank...');

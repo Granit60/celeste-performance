@@ -14,11 +14,11 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchData() {
-      setStatus('Fetching player info...');
+      setStatus('Fetching players info...');
       const allPlayerInfo = await GBnPlayerAll();
-      setStatus('Fetching player stats...');
+      setStatus('Fetching players stats...');
       const allPlayers = await GBnStatsPlayerTierClearCounts();
-      setStatus('Fetching tiers...');
+      setStatus('Fetching tiers info...');
       const difficulties = await GBnDifficulty();
 
       const idToSortMap = {};
