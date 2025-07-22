@@ -5,7 +5,7 @@ import "./HomePage.css";
 export default function HomePage() {
   const [players, setPlayers] = useState([]);
   const [stats, setStats] = useState({});
-  const [loading, setLoading] = useState('Loading leaderboard...');
+  const [status, setStatus] = useState('Loading leaderboard...');
 
   const pp_x = parseFloat( import.meta.env.VITE_PP_X);
   const pp_w = parseFloat(import.meta.env.VITE_PP_W);
@@ -13,9 +13,9 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchData() {
-      setLoading('Fetching player stats...');
+      setStatus('Fetching player stats...');
       const allPlayers = await GBnStatsPlayerTierClearCounts();
-      setLoading('Fetching tiers...');
+      setStatus('Fetching tiers...');
       const difficulties = await GBnDifficulty();
 
       const idToSortMap = {};
@@ -45,7 +45,7 @@ export default function HomePage() {
         top1000: result[999]?.pp_total.toFixed(2),
       });
       setPlayers(sorted);
-      setLoading('');
+      setStatus('');
     }
 
     fetchData();
@@ -54,7 +54,9 @@ export default function HomePage() {
   return (
     <section className="home">
       <div className="landing">
-        <p className="status">{loading}</p>
+        <p className="status">{status}</p>
+        {players && status == '' &&
+        <>
         <table className="leaderboard">
           <thead>
             <tr>
@@ -81,6 +83,8 @@ export default function HomePage() {
           <p>Top 100 is {stats.top100}pp</p>
           <p>Top 1000 is {stats.top1000}pp</p>
         </div>
+        </>
+        }
       </div>
     </section>
   );
