@@ -9,6 +9,9 @@
         overflow: hidden;
         color: $col-bg-1;
         padding: 3%;
+        h2 {
+            @include horizontalSeparator();
+        }
         .leaderboard {
             width: 100%;
             border-collapse: collapse;

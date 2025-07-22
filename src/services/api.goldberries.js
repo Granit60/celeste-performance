@@ -49,3 +49,11 @@ export const GBnChallenge = (id) => {
             console.error('Error fetching GBnChallenge:', error);
         });
 }
+
+export const GBnSearchPlayer = (q) => {
+    return axios.get(`${api}/search?q=${q}&in=players`)
+        .then(response => response.data)
+        .catch(error => {
+            console.error('Error fetching GBnSearchPlayer:', error);
+        });
+}

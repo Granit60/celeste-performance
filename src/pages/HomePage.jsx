@@ -57,6 +57,7 @@ export default function HomePage() {
         <p className="status">{status}</p>
         {players && status == '' &&
         <>
+        <h2>Leaderboard</h2>
         <table className="leaderboard">
           <thead>
             <tr>
@@ -77,11 +78,13 @@ export default function HomePage() {
             ))}
           </tbody>
         </table>
+        <h2></h2>
         <div className="stats">
           <p className="showing">Showing top 10 out of {stats.total} players</p>
           <p>Top 10 is {stats.top10}pp</p>
           <p>Top 100 is {stats.top100}pp</p>
           <p>Top 1000 is {stats.top1000}pp</p>
+          <p>Current PP System : {`x = ${pp_x} • w = ${pp_w} • n = ${pp_n} `}</p>
         </div>
         </>
         }

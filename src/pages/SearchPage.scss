@@ -1,0 +1,38 @@
+@import "../css/_main.scss";
+
+.search {
+    height: 90%;
+    .landing {
+        height: 100%;
+        position: relative;
+        background-color: $col-brand-1;
+        overflow: hidden;
+        color: $col-bg-1;
+        padding: 3%;
+        .searchbar {
+            font-size: 1.2rem;
+            padding: .5%;
+            margin-bottom: 1%;
+
+            background-color: $col-brand-1;
+            color: $col-bg-1;
+            border: 1px solid $col-bg-1;
+            border-radius: 4px;
+            &::placeholder {
+                color: $col-brand-2;
+            }
+        }
+        h2 {
+            @include horizontalSeparator();
+        }
+        .results {
+            font-size: 1.2rem;
+            .player {
+                padding: .5% 0 0 0;
+                a {
+                    color: $col-bg-1;
+                }
+            }
+        }
+    }
+}
