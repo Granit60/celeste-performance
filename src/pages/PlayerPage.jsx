@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GBnDifficulty, GBnStatsPlayerTierClearCounts, GBnPlayer, GBnPlayerSubmissions } from '../services/api.goldberries';
+import { sortPlayers } from "../services/celesteperformance";
 import { format, differenceInDays } from 'date-fns';
 import "./PlayerPage.css";
 
@@ -55,30 +56,10 @@ export default function PlayerPage() {
       setClears(topClears)
       setStatus('Calculating global rank...');
 
-      const allPlayers = await GBnStatsPlayerTierClearCounts();
+      const players = await GBnStatsPlayerTierClearCounts();
       const difficulties = await GBnDifficulty();
 
-      const idToSortMap = {};
-      difficulties.forEach(diff => idToSortMap[diff.id] = diff.sort);
-
-      const rankedPlayers = allPlayers.map(({ player, clears }) => {
-        const sortClears = [];
-        for (const [idStr, count] of Object.entries(clears)) {
-          const id = parseInt(idStr);
-          const sort = idToSortMap[id];
-          if (!sort || count <= 0) continue;
-          for (let i = 0; i < count; i++) sortClears.push(sort);
-        }
-
-        const top10 = sortClears.sort((a, b) => b - a).slice(0, pp_n);
-        const top10pp = top10.map((t, i) => ( t**pp_x * 100 * (pp_w ** i)))
-        const total = top10pp.reduce((acc, curr) => acc + curr, 0);
-
-        return { id: player.id, pp_total: total };
-      });
-
-      // Sort and find rank
-      rankedPlayers.sort((a, b) => b.pp_total - a.pp_total);
+      const rankedPlayers = sortPlayers(players, difficulties, pp_x, pp_w, pp_n);
       const rank = rankedPlayers.findIndex(entry => entry.id === p.id) + 1;
 
       setPlayer({...p, totalpp, rank, nclears });

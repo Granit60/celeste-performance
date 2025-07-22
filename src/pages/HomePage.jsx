@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GBnDifficulty, GBnStatsPlayerTierClearCounts } from '../services/api.goldberries';
+import { sortPlayers } from '../services/celesteperformance';
 import "./HomePage.css";
 
 export default function HomePage() {
@@ -21,24 +22,10 @@ export default function HomePage() {
       const idToSortMap = {};
       difficulties.forEach(diff => idToSortMap[diff.id] = diff.sort);
 
-      const result = allPlayers.map(({ player, clears }) => {
-        const sortClears = [];
-        for (const [idStr, count] of Object.entries(clears)) {
-          const id = parseInt(idStr);
-          const sort = idToSortMap[id];
-          if (!sort || count <= 0) continue;
-          for (let i = 0; i < count; i++) sortClears.push(sort);
-        }
-
-        const top10 = sortClears.sort((a, b) => b - a).slice(0, pp_n);
-        const top10pp = top10.map((t, i) => ( t**pp_x * 100 * (pp_w ** i)))
-        const total = top10pp.reduce((acc, curr) => acc + curr, 0);
-        const nclears = sortClears.length;
-
-        return { player, clears: top10, pp: top10pp, pp_total: total, nclears };
-      });
-
-      const sorted = result.sort((a, b) => b.pp_total - a.pp_total).slice(0, 10);
+      setStatus('Calculating players performance...');
+      const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n);
+      const sorted = result.slice(0,10);
+      
       setStats({
         total: allPlayers.length,
         top10: result[9]?.pp_total.toFixed(2),

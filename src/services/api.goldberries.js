@@ -2,7 +2,7 @@ import axios from "axios";
 const api = import.meta.env.VITE_GOLDBERRIES_API;
 
 export const GBnPlayer = ( id ) => {
-    return axios.get(`${api}/player?id=${id}`)
+    return axios.get(`${api}/player?id=${id}&customization=true`)
         .then(response => response.data)
         .catch(error => {
             console.error('Error fetching GBnPlayer:', error);
