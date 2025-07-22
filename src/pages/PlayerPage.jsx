@@ -115,7 +115,7 @@ export default function PlayerPage() {
               {clears.map(c => (
                 <tr key={c.rank} className="clear">
                   <td>#{c.rank}</td>
-                  <td>{c.challenge.map.name}</td>
+                  <td><a target="_blank" href={`https://goldberries.net/map/${c.challenge.map.id}`}>{c.challenge.map.name}</a></td>
                   <td>{c.challenge.difficulty.sort}</td>
                   <td>{c.ppRaw}</td>
                   <td>{`${c.ppWeighted} (${(c.ppWeighted/player.totalpp*100).toFixed(1)}%)`}</td>

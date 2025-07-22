@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { GBnDifficulty, GBnStatsPlayerTierClearCounts } from '../services/api.goldberries';
-import { sortPlayers } from '../services/celesteperformance';
+import { GBnDifficulty, GBnStatsPlayerTierClearCounts, GBnPlayerAll } from '../services/api.goldberries';
+import { sortPlayers, mergePlayerInfoStats } from '../services/celesteperformance';
 import "./HomePage.css";
 
 export default function HomePage() {
@@ -14,6 +14,8 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchData() {
+      setStatus('Fetching player info...');
+      const allPlayerInfo = await GBnPlayerAll();
       setStatus('Fetching player stats...');
       const allPlayers = await GBnStatsPlayerTierClearCounts();
       setStatus('Fetching tiers...');
@@ -24,10 +26,12 @@ export default function HomePage() {
 
       setStatus('Calculating players performance...');
       const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n);
-      const sorted = result.slice(0,10);
+      const sorted = mergePlayerInfoStats(result, allPlayerInfo).slice(0,10);
+
+      console.log(sorted);
       
       setStats({
-        total: allPlayers.length,
+        total: result.length,
         top10: result[9]?.pp_total.toFixed(2),
         top100: result[99]?.pp_total.toFixed(2),
         top1000: result[999]?.pp_total.toFixed(2),
@@ -49,7 +53,8 @@ export default function HomePage() {
         <table className="leaderboard">
           <thead>
             <tr>
-              <th></th>
+              <th className="small"></th>
+              <th className="small"></th>
               <th>Player</th>
               <th>PP</th>
               <th>Top Clears</th>
@@ -60,7 +65,8 @@ export default function HomePage() {
             {players.map((p, i) => (
               <tr key={p.player.id}>
                 <td>#{i + 1}</td>
-                <td><a href={`/player/${p.player.id}`}>{p.player.name}</a></td>
+                <td>{p.player.account.country != "xx" && <span alt={p.player.account.country} className={`fi fi-${p.player.account.country}`}></span>}</td>
+                <td><a href={`/player/${p.player.id}`}> {p.player.name}</a> </td>
                 <td>{p.pp_total.toFixed(0)}</td>
                 <td>{p.clears.join(', ')}</td>
                 <td>{p.nclears}</td>

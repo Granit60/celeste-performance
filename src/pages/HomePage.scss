@@ -21,10 +21,19 @@
                     padding: .5%;
                     text-align: left;
                 }
+                .small {
+                    width: 2.5%;
+                }
                 td {
                     padding: .5%;
                     a {
                         color: $col-bg-1;
+                        &:hover {
+                            color: $col-brand-2;
+                        }
+                    }
+                    .fi {
+                        @include fi();
                     }
                 }
             }

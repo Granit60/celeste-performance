@@ -17,12 +17,6 @@ export default function Header() {
           <div><Link to="/about">About</Link></div>
         </nav>
       </div>
-      <div className="lang">
-        <select onChange={(e) => window.location.href += '/' + e.target.value} value={locale}>
-          <option value="en_US">English (US)</option>
-          <option value="fr_FR">Français</option>
-        </select>
-      </div>
     </header>
   );
 }
