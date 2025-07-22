@@ -23,10 +23,11 @@ export default function PlayerPage() {
         return;
       }
       setPlayer(p);
+      console.log(p);
 
       setStatus('Fetching player submissions...');
       const playerClears = await GBnPlayerSubmissions(id);
-      console.log(playerClears);
+      const nclears = playerClears.length;
 
       setStatus(`Sorting top ${pp_n}...`);
       const topClears = playerClears
@@ -80,7 +81,7 @@ export default function PlayerPage() {
       rankedPlayers.sort((a, b) => b.pp_total - a.pp_total);
       const rank = rankedPlayers.findIndex(entry => entry.id === p.id) + 1;
 
-      setPlayer({...p, totalpp, rank });
+      setPlayer({...p, totalpp, rank, nclears });
       setStatus('');
 
     }
@@ -94,12 +95,14 @@ export default function PlayerPage() {
 
         {player && status == '' &&
         <>
-          <h2>Player</h2>
           <div className="playercard">
             <h1>{player.name} • {player.totalpp}pp •  #{player.rank}</h1>
+            <div className="info">
+              <p>Number of Clears : {player.nclears}</p>
+            </div>
           </div>
 
-          <h2>Clears showcase</h2>
+          <h2>Top Clears Showcase</h2>
           <table className="showcase">
             <thead>
               <tr>
@@ -118,7 +121,7 @@ export default function PlayerPage() {
                   <td>{c.challenge.map.name}</td>
                   <td>{c.challenge.difficulty.sort}</td>
                   <td>{c.ppRaw}</td>
-                  <td>{c.ppWeighted}</td>
+                  <td>{`${c.ppWeighted} (${(c.ppWeighted/player.totalpp*100).toFixed(1)}%)`}</td>
                   <td>{c.formattedDate} ({c.ago} days ago)</td>
                 </tr>
               ))}

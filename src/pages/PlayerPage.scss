@@ -14,7 +14,13 @@
             @include horizontalSeparator();
         }
         .playercard {
-            margin-bottom: 5%;
+            margin-bottom: 3%;
+            h1 {
+                margin-bottom: 1%;
+            }
+            .info {
+                font-size: 1.2rem;
+            }
         }
         .showcase {
             width: 100%;

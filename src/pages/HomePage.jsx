@@ -33,8 +33,9 @@ export default function HomePage() {
         const top10 = sortClears.sort((a, b) => b - a).slice(0, pp_n);
         const top10pp = top10.map((t, i) => ( t**pp_x * 100 * (pp_w ** i)))
         const total = top10pp.reduce((acc, curr) => acc + curr, 0);
+        const nclears = sortClears.length;
 
-        return { player, clears: top10, pp: top10pp, pp_total: total };
+        return { player, clears: top10, pp: top10pp, pp_total: total, nclears };
       });
 
       const sorted = result.sort((a, b) => b.pp_total - a.pp_total).slice(0, 10);
@@ -64,7 +65,8 @@ export default function HomePage() {
               <th></th>
               <th>Player</th>
               <th>PP</th>
-              <th>Clears</th>
+              <th>Top Clears</th>
+              <th>Number of Clears</th>
             </tr>
           </thead>
           <tbody>
@@ -74,6 +76,7 @@ export default function HomePage() {
                 <td><a href={`/player/${p.player.id}`}>{p.player.name}</a></td>
                 <td>{p.pp_total.toFixed(0)}</td>
                 <td>{p.clears.join(', ')}</td>
+                <td>{p.nclears}</td>
               </tr>
             ))}
           </tbody>
