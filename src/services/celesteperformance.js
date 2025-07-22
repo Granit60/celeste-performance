@@ -34,3 +34,28 @@ export function sortPlayers(players, difficulties, pp_x, pp_w, pp_n) {
   rankedPlayers.sort((a, b) => b.pp_total - a.pp_total);
   return rankedPlayers;
 }
+
+export function mergePlayerInfoStats(rankedPlayers, allPlayerInfo) {
+  const playerInfoMap = {};
+  allPlayerInfo.forEach(player => {
+    playerInfoMap[player.id] = player;
+  });
+
+  const enrichedPlayers = rankedPlayers.map(player => {
+  const fullInfo = playerInfoMap[player.id];
+  const country = fullInfo?.account?.country || 'xx'; // 'xx' fallback
+
+  return {
+    ...player,
+    player: {
+      ...player.player,
+      account: {
+        ...player.player.account,
+        country,
+        }
+      }
+    };
+  });
+  return enrichedPlayers;
+
+}

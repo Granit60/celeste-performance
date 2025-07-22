@@ -19,7 +19,7 @@ export const GBnPlayerSubmissions = ( id ) => {
 };
 
 export const GBnPlayerAll = () => {
-    return axios.get(`${api}/player/all`)
+    return axios.get(`${api}/player/all?customization=true`)
         .then(response => response.data)
         .catch(error => {
             console.error('Error fetching GBnPlayerAll::', error);

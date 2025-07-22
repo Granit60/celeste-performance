@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { GBnDifficulty, GBnStatsPlayerTierClearCounts, GBnPlayer, GBnPlayerSubmissions } from '../services/api.goldberries';
-import { sortPlayers } from "../services/celesteperformance";
+import { GBnDifficulty, GBnPlayerAll, GBnStatsPlayerTierClearCounts, GBnPlayer, GBnPlayerSubmissions } from '../services/api.goldberries';
+import { mergePlayerInfoStats, sortPlayers } from "../services/celesteperformance";
 import { format, differenceInDays } from 'date-fns';
 import "./PlayerPage.css";
 
@@ -24,7 +24,6 @@ export default function PlayerPage() {
         return;
       }
       setPlayer(p);
-      console.log(p);
 
       setStatus('Fetching player submissions...');
       const playerClears = await GBnPlayerSubmissions(id);
@@ -54,15 +53,27 @@ export default function PlayerPage() {
       const totalpp = (topClears.reduce((acc, curr) => acc + curr.ppWeighted, 0))
 
       setClears(topClears)
-      setStatus('Calculating global rank...');
 
+      setStatus('Fetching player info...');
+      const allPlayerInfo = await GBnPlayerAll();
+      setStatus('Fetching player stats...');
       const players = await GBnStatsPlayerTierClearCounts();
+      setStatus('Fetching tiers...');
       const difficulties = await GBnDifficulty();
 
+      setStatus('Calculating global rank...');
       const rankedPlayers = sortPlayers(players, difficulties, pp_x, pp_w, pp_n);
       const rank = rankedPlayers.findIndex(entry => entry.id === p.id) + 1;
 
-      setPlayer({...p, totalpp, rank, nclears });
+      var countryRank = 0;
+      if (p.account.country) {
+        setStatus('Calculating country rank...');
+        const enrichedPlayers = mergePlayerInfoStats(rankedPlayers, allPlayerInfo);
+        const countryPlayers = enrichedPlayers.filter((play) => play.player.account.country == p.account.country)
+        countryRank = countryPlayers.findIndex(entry => entry.id === p.id) + 1;
+      }
+
+      setPlayer({...p, totalpp, rank, countryRank, nclears });
       setStatus('');
 
     }
@@ -77,9 +88,14 @@ export default function PlayerPage() {
         {player && status == '' &&
         <>
           <div className="playercard">
-            <h1>{player.name} • {player.totalpp}pp •  #{player.rank}</h1>
+            <h1>
+              {player.name} • {player.totalpp}pp •  #{player.rank}
+              {player.countryRank > 0 && <> • #{player.countryRank} <span alt={player.account.country} className={`fi fi-${player.account.country}`}></span></>}
+            </h1>
             <div className="info">
               <p>Number of Clears : {player.nclears}</p>
+              <p>Input method : {player.account.input_method}</p>
+              <p className="about_me">{player.account.about_me}</p>
             </div>
           </div>
 
