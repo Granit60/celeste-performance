@@ -44,7 +44,7 @@ export default function HomePage() {
       });
       setPlayers(sorted.slice(0,10));
       setCountries(countriesSorted);
-      setStatus('');
+      setStatus(sorted.length > 0 ? '' : 'No players found.');
     }
     fetchData();
   }, []);
