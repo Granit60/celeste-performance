@@ -23,7 +23,7 @@ export default function AboutPage() {
                      your personal pp value through a decreasing weighted average. 
                      This means your #1 achievement is worth more than your #2, etc. </p>
                 <p>The exact values used for computing are subject to changes, but here are the formula, the variables and what they mean : </p>
-                <p>{"total_pp = SUM(i=0, n-1, i++) { t ^ x * 100 * (w ^ i) }"}</p>
+                <p class="highlight">{"total_pp = SUM(i=0, n-1, i++) { t ^ x * 75 * (w ^ i) }"}</p>
                 <ul>
                     <li>
                         x is the exponent the tier is raised to. This is meant to create gaps between each tier progressively bigger,
