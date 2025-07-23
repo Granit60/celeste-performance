@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { GBnDifficulty, GBnStatsPlayerTierClearCounts, GBnPlayerAll } from '../services/api.goldberries';
 import { sortPlayers, mergePlayerInfoStats } from '../services/celesteperformance';
 import "./HomePage.css";
 
 export default function HomePage() {
   const { id } = useParams();
-  if (id == "__") {return (<Navigate to ={import.meta.env.BASE_URL}/>)}
+  const navigate = useNavigate();
+  if (id == "__") {return (<Navigate to ={import.meta.env.BASE_URL} replace/>)}
   
   const [players, setPlayers] = useState([]);
   const [countries, setCountries] = useState([]);
@@ -47,7 +48,7 @@ export default function HomePage() {
       setStatus(sorted.length > 0 ? '' : 'No players found.');
     }
     fetchData();
-  }, []);
+  }, [id]);
 
   return (
     <section className="home">
@@ -56,10 +57,10 @@ export default function HomePage() {
         {players && status == '' &&
         <>
         <p>Country : 
-          <select value={id} onChange={(e) => { window.location.href = import.meta.env.BASE_URL + 'leaderboard/' + e.target.value; }}>
+          <select value={id} onChange={(e) => { navigate(e.target.value == "__" ? "/" : import.meta.env.BASE_URL + "leaderboard/" + e.target.value) }}>
               {countries.map((c) => (
               <option value={c} key={c}>{c == "__" ? "World" : c}</option>
-            ))}<Navigate to ={import.meta.env.BASE_URL} />
+            ))}
           </select>
         </p>
         <h2>Leaderboard</h2>
