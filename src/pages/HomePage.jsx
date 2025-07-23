@@ -80,7 +80,7 @@ export default function HomePage() {
           <p>Top 10 is {stats.top10}pp</p>
           <p>Top 100 is {stats.top100}pp</p>
           <p>Top 1000 is {stats.top1000}pp</p>
-          <p>Current PP System : {`x = ${pp_x} • w = ${pp_w} • n = ${pp_n} `}</p>
+          <p>Current PP System : {`x = ${pp_x} • w = ${pp_w} • n = ${pp_n} `} | <a href="/about#how">How does this work?</a></p>
         </div>
         </>
         }

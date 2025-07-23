@@ -3,12 +3,7 @@
 .search {
     height: 90%;
     .landing {
-        height: 100%;
-        position: relative;
-        background-color: $col-brand-1;
-        overflow: hidden;
-        color: $col-bg-1;
-        padding: 3%;
+        @include landing();
         .searchbar {
             font-size: 1.2rem;
             padding: .5%;
@@ -30,7 +25,7 @@
             .player {
                 padding: .5% 0 0 0;
                 a {
-                    color: $col-bg-1;
+                    @include a();
                 }
             }
         }

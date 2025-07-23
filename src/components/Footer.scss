@@ -13,4 +13,7 @@ footer {
     text-shadow: 2px 2px 1px $col-brand-1;
 
     z-index: 100;
+    a {
+        @include a();
+    }
 }

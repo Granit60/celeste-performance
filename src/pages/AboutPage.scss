@@ -1,0 +1,25 @@
+@import "../css/_main.scss";
+
+.about {
+    height: 90%;
+    .landing {
+        @include landing();
+        h2 {
+            @include horizontalSeparator();
+        }
+        p, ul li {
+            font-size: 1.2rem;
+            margin-bottom: 1%;
+            a {
+                @include a();
+                text-decoration: underline $col-brand-2 .1rem;
+            }
+        }
+        ul .offset {
+            margin-left: 3%;
+            .highlight {
+                color: $col-brand-2;
+            }
+        }
+    }
+}

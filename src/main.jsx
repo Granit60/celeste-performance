@@ -8,6 +8,7 @@ import 'flag-icons/css/flag-icons.min.css';
 import PlayerPage from './pages/PlayerPage';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
+import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -17,6 +18,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/" element={<App />}> 
           <Route index element={<HomePage />} />
           <Route path="search" element={<SearchPage />} />
+          <Route path="about" element={<AboutPage />} />
+
           <Route path="player/:id" element={<PlayerPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
