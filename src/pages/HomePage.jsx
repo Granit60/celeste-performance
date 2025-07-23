@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, Navigate } from 'react-router-dom';
 import { GBnDifficulty, GBnStatsPlayerTierClearCounts, GBnPlayerAll } from '../services/api.goldberries';
 import { sortPlayers, mergePlayerInfoStats } from '../services/celesteperformance';
 import "./HomePage.css";
 
 export default function HomePage() {
+  const { id } = useParams();
+  if (id == "__") {return (<Navigate to ={import.meta.env.BASE_URL}/>)}
+  
   const [players, setPlayers] = useState([]);
+  const [countries, setCountries] = useState([]);
   const [stats, setStats] = useState({});
   const [status, setStatus] = useState('Loading leaderboard...');
 
@@ -26,20 +31,21 @@ export default function HomePage() {
 
       setStatus('Calculating players performance...');
       const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n);
-      const sorted = mergePlayerInfoStats(result, allPlayerInfo).slice(0,10);
-
-      console.log(sorted);
+      const merged = mergePlayerInfoStats(result, allPlayerInfo);
+      const sorted = (!id) ? merged : merged.filter((p) => ( p.player.account.country == id)) ;
+      const countriesTemp = [...new Set(merged.map((p) => p.player.account.country))]; // array => set => array for uniqueness
+      const countriesSorted = countriesTemp.sort((a,b) => { return a.localeCompare(b)});
       
       setStats({
-        total: result.length,
-        top10: result[9]?.pp_total.toFixed(2),
-        top100: result[99]?.pp_total.toFixed(2),
-        top1000: result[999]?.pp_total.toFixed(2),
+        total: sorted.length,
+        top10: sorted[9]?.pp_total.toFixed(2),
+        top100: sorted[99]?.pp_total.toFixed(2),
+        top1000: sorted[999]?.pp_total.toFixed(2),
       });
-      setPlayers(sorted);
+      setPlayers(sorted.slice(0,10));
+      setCountries(countriesSorted);
       setStatus('');
     }
-
     fetchData();
   }, []);
 
@@ -49,6 +55,13 @@ export default function HomePage() {
         <p className="status">{status}</p>
         {players && status == '' &&
         <>
+        <p>Country : 
+          <select value={id} onChange={(e) => { window.location.href = import.meta.env.BASE_URL + 'leaderboard/' + e.target.value; }}>
+              {countries.map((c) => (
+              <option value={c} key={c}>{c == "__" ? "World" : c}</option>
+            ))}<Navigate to ={import.meta.env.BASE_URL} />
+          </select>
+        </p>
         <h2>Leaderboard</h2>
         <table className="leaderboard">
           <thead>
@@ -65,7 +78,7 @@ export default function HomePage() {
             {players.map((p, i) => (
               <tr key={p.player.id}>
                 <td>#{i + 1}</td>
-                <td>{p.player.account.country != "xx" && <span alt={p.player.account.country} className={`fi fi-${p.player.account.country}`}></span>}</td>
+                <td>{p.player.account.country != "__" && <span title={p.player.account.country} className={`fi fi-${p.player.account.country}`}></span>}</td>
                 <td><a href={`/player/${p.player.id}`}> {p.player.name}</a> </td>
                 <td>{p.pp_total.toFixed(0)}</td>
                 <td>{p.clears.join(', ')}</td>
@@ -76,10 +89,10 @@ export default function HomePage() {
         </table>
         <h2></h2>
         <div className="stats">
-          <p className="showing">Showing top 10 out of {stats.total} players</p>
-          <p>Top 10 is {stats.top10}pp</p>
-          <p>Top 100 is {stats.top100}pp</p>
-          <p>Top 1000 is {stats.top1000}pp</p>
+          <p className="showing">Showing top {stats.total < pp_n ? stats.total : pp_n } out of {stats.total} players</p>
+          {stats.total >= 10 && <p>Top 10 is {stats.top10}pp</p>}
+          {stats.total >= 100 && <p>Top 100 is {stats.top100}pp</p>}
+          {stats.total >= 1000 &&  <p>Top 1000 is {stats.top1000}pp</p>}
           <p>Current PP System : {`x = ${pp_x} • w = ${pp_w} • n = ${pp_n} `} | <a href="/about#how">How does this work?</a></p>
         </div>
         </>

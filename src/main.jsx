@@ -21,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="about" element={<AboutPage />} />
 
           <Route path="player/:id" element={<PlayerPage />} />
+          <Route path="leaderboard/:id" element={<HomePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

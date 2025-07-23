@@ -7,6 +7,14 @@
         h2 {
             @include horizontalSeparator();
         }
+        p select {
+            padding: .2%;
+            margin-left: .5%;
+            background-color: $col-brand-1;
+            color: $col-bg-1;
+            border: 1px solid $col-bg-1;
+            border-radius: 4px;
+        }
         .leaderboard {
             width: 100%;
             border-collapse: collapse;

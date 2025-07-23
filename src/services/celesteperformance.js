@@ -43,7 +43,7 @@ export function mergePlayerInfoStats(rankedPlayers, allPlayerInfo) {
 
   const enrichedPlayers = rankedPlayers.map(player => {
   const fullInfo = playerInfoMap[player.id];
-  const country = fullInfo?.account?.country || 'xx'; // 'xx' fallback
+  const country = fullInfo?.account?.country || '__'; // '__' fallback
 
   return {
     ...player,

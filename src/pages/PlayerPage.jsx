@@ -90,7 +90,7 @@ export default function PlayerPage() {
           <div className="playercard">
             <h1>
               {player.name} • {player.totalpp}pp •  #{player.rank}
-              {player.countryRank > 0 && <> • #{player.countryRank} <span alt={player.account.country} className={`fi fi-${player.account.country}`}></span></>}
+              {player.countryRank > 0 && <> • #{player.countryRank} <span title={player.account.country} className={`fi fi-${player.account.country}`}></span></>}
             </h1>
             <div className="info">
               <p>Number of Clears : {player.nclears}</p>
