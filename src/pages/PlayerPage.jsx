@@ -63,7 +63,7 @@ export default function PlayerPage() {
       const difficulties = await GBnDifficulty();
 
       setStatus('Calculating global rank...');
-      const rankedPlayers = sortPlayers(players, difficulties, pp_x, pp_w, pp_n);
+      const rankedPlayers = sortPlayers(players, difficulties, pp_x, pp_w, pp_n, pp_b);
       const rank = rankedPlayers.findIndex(entry => entry.id === p.id) + 1;
 
       var countryRank = 0;
