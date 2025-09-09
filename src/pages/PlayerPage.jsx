@@ -14,6 +14,7 @@ export default function PlayerPage() {
   const pp_x = parseFloat( import.meta.env.VITE_PP_X);
   const pp_w = parseFloat(import.meta.env.VITE_PP_W);
   const pp_n = parseInt(import.meta.env.VITE_PP_N);
+  const pp_b = parseInt(import.meta.env.VITE_PP_B);
 
   useEffect(() => {
     async function fetchPlayer() {
@@ -35,8 +36,8 @@ export default function PlayerPage() {
         .slice(0, pp_n)
         .map((c, i) => {
           const sort = c.challenge.difficulty.sort;
-          const ppRaw = Math.round(sort ** pp_x * 100);
-          const ppWeighted = Math.round(ppRaw * (pp_w ** i));
+          const ppRaw = sort ** pp_x * pp_b;
+          const ppWeighted = ppRaw * (pp_w ** i);
           const formattedDate = format(new Date(c.date_achieved), 'M/d/yyyy');
           const ago = differenceInDays(new Date(), new Date(c.date_achieved));
 
@@ -89,7 +90,7 @@ export default function PlayerPage() {
         <>
           <div className="playercard">
             <h1>
-              {player.name} • {player.totalpp}pp •  #{player.rank}
+              {player.name} • {player.totalpp.toFixed(0)}pp •  #{player.rank}
               {player.countryRank > 0 && <> • #{player.countryRank} <span title={player.account.country} className={`fi fi-${player.account.country}`}></span></>}
             </h1>
             <div className="info">
@@ -117,8 +118,8 @@ export default function PlayerPage() {
                   <td>#{c.rank}</td>
                   <td><a target="_blank" href={`https://goldberries.net/map/${c.challenge.map.id}`}>{c.challenge.map.name}</a></td>
                   <td>{c.challenge.difficulty.sort}</td>
-                  <td>{c.ppRaw}</td>
-                  <td>{`${c.ppWeighted} (${(c.ppWeighted/player.totalpp*100).toFixed(1)}%)`}</td>
+                  <td>{c.ppRaw.toFixed(0)}</td>
+                  <td>{`${c.ppWeighted.toFixed(0)} (${(c.ppWeighted/player.totalpp*100).toFixed(1)}%)`}</td>
                   <td>{c.formattedDate} ({c.ago} days ago)</td>
                 </tr>
               ))}

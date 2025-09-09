@@ -1,4 +1,4 @@
-export function sortPlayers(players, difficulties, pp_x, pp_w, pp_n) {
+export function sortPlayers(players, difficulties, pp_x, pp_w, pp_n, pp_b) {
   const idToSortMap = {};
   difficulties.forEach(diff => {
     idToSortMap[diff.id] = diff.sort;
@@ -19,7 +19,7 @@ export function sortPlayers(players, difficulties, pp_x, pp_w, pp_n) {
     }
 
     const top = sortClears.sort((a, b) => b - a).slice(0, pp_n);
-    const ppValues = top.map((t, i) => t ** pp_x * 75 * (pp_w ** i));
+    const ppValues = top.map((t, i) => t ** pp_x * pp_b * (pp_w ** i));
     const total = ppValues.reduce((acc, curr) => acc + curr, 0);
 
     return {

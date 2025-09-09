@@ -17,6 +17,8 @@ export default function HomePage() {
   const pp_x = parseFloat( import.meta.env.VITE_PP_X);
   const pp_w = parseFloat(import.meta.env.VITE_PP_W);
   const pp_n = parseInt(import.meta.env.VITE_PP_N);
+  const pp_b = parseInt(import.meta.env.VITE_PP_B);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -31,7 +33,7 @@ export default function HomePage() {
       difficulties.forEach(diff => idToSortMap[diff.id] = diff.sort);
 
       setStatus('Calculating players performance...');
-      const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n);
+      const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n, pp_b);
       const merged = mergePlayerInfoStats(result, allPlayerInfo);
       const sorted = (!id) ? merged : merged.filter((p) => ( p.player.account.country == id)) ;
       const countriesTemp = [...new Set(merged.map((p) => p.player.account.country))]; // array => set => array for uniqueness

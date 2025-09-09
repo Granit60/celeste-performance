@@ -5,6 +5,7 @@ export default function AboutPage() {
     const pp_x = parseFloat( import.meta.env.VITE_PP_X);
     const pp_w = parseFloat(import.meta.env.VITE_PP_W);
     const pp_n = parseInt(import.meta.env.VITE_PP_N);
+    const pp_b = parseInt(import.meta.env.VITE_PP_B);
 
     return (
         <section className="about">
@@ -23,20 +24,26 @@ export default function AboutPage() {
                      your personal pp value through a decreasing weighted average. 
                      This means your #1 achievement is worth more than your #2, etc. </p>
                 <p>The exact values used for computing are subject to changes, but here are the formula, the variables and what they mean : </p>
-                <p class="highlight">{"total_pp = SUM(i=0, n-1, i++) { t ^ x * 75 * (w ^ i) }"}</p>
+                <p class="highlight">{`total_pp = SUM(i=0, n-1, i++) { t ^ x * ${pp_b} * (w ^ i) }`}</p>
                 <ul>
                     <li>
+                        t is the tier of the clear;
+                    </li>
+                    <li>
                         x is the exponent the tier is raised to. This is meant to create gaps between each tier progressively bigger,
-                        in contrast to having t1 =&gt; t2 being the same gap as t15 =&gt; t16.
+                        in contrast to having t1 =&gt; t2 being the same gap as t15 =&gt; t16;
                     <br></br>
                     <span className="offset">Current value : <span className="highlight">x = {pp_x}</span></span>
                     </li>
                     <li>
                         w is the weight each subsequent achievement of your top achievements is decreased by, for calculating your 
                         personal pp score . For example, w = 0.5 would mean your #2 is worth half of your #1, your #3  half of #2, etc.
-                        It's below 1, so (w ^ i) gets smaller as the exponent gets bigger. 
+                        It's below 1, so (w ^ i) gets smaller as the exponent gets bigger;
                         <br></br>
                         <span className="offset">Current value : <span className="highlight">w = {pp_w}</span></span>
+                    </li>
+                    <li>
+                        i is the index of the clear in your top 10;
                     </li>
                     <li>
                         n is the number of achievements taken into account (and how many appear on your profile).
