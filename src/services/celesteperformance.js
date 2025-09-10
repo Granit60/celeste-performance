@@ -59,3 +59,67 @@ export function mergePlayerInfoStats(rankedPlayers, allPlayerInfo) {
   return enrichedPlayers;
 
 }
+
+export function generatePlayerChart(clears, pp_x, pp_w, pp_n, pp_b) {
+  const chronoClears = clears.sort((a, b) => {
+    return Date.parse(a.date_achieved) - Date.parse(b.date_achieved);
+  });
+
+  const clearData = []
+  const graphData = []
+  chronoClears.forEach((c) => {
+  if (clearData.length < pp_n || c.challenge.difficulty.sort > clearData.at(-1)) {
+    
+    clearData.push(c.challenge.difficulty.sort) // append tier top 10
+    clearData.sort((a,b) => { return b - a }) //reverse order for best to worst
+    
+    if (clearData.length > pp_n) { clearData.pop() } //trim to keep top 10 only
+    if (graphData.length > 0 && c.date_achieved.substring(0,10) == graphData.at(-1).x) { graphData.pop() } //if new peak on the same day, remove prev
+    
+    graphData.push({
+      x: c.date_achieved.substring(0,10), 
+      y: clearData.reduce((acc, curr, index) => acc + (curr ** pp_x * pp_b * (pp_w ** index)), 0) //pp math
+      })
+    }
+  })
+
+  const data = {
+    datasets: [
+      {
+        label: "PP",
+        data: graphData,
+        borderColor: "#A98DD6",
+        backgroundColor: "white",
+        tension: 0.2,
+      },
+    ],
+  };
+  const config = {
+    type: "line",
+    data: data,
+    options: {
+      responsive: true,
+      plugins: {
+        legend : {
+          display: false
+        }
+      },
+      scales: {
+        x: {
+          type: "category",
+          title: {
+            display: false,
+          },
+        },
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "PP",
+          },
+        },
+      },
+    },
+  };
+  return config;
+}

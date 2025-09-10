@@ -55,7 +55,7 @@ export default function AboutPage() {
                 <ul>
                     <li>Fix viddie (??)</li>
                     <li>Challenges</li>
-                    <li>Player graph</li>
+                    <li>Make the thing look nicer probably</li>
                 </ul>
                 <h2>Who made CelestePerformance?</h2>
                 <p>

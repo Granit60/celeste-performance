@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GBnDifficulty, GBnPlayerAll, GBnStatsPlayerTierClearCounts, GBnPlayer, GBnPlayerSubmissions } from '../services/api.goldberries';
-import { mergePlayerInfoStats, sortPlayers } from "../services/celesteperformance";
+import { mergePlayerInfoStats, sortPlayers, generatePlayerChart } from "../services/celesteperformance";
 import { format, differenceInDays } from 'date-fns';
 import "./PlayerPage.css";
+import { Chart, registerables } from "chart.js";
 
 export default function PlayerPage() {
   const { id } = useParams();
@@ -82,6 +83,13 @@ export default function PlayerPage() {
         countryRank = countryPlayers.findIndex(entry => entry.id === p.id) + 1;
       }
 
+      setStatus("Creating chart...")
+      Chart.register(...registerables);
+      const ctx = document.getElementById("chart");
+      console.log(playerClears);
+      const config = await generatePlayerChart(playerClears, pp_x, pp_w, pp_n, pp_b);
+      new Chart(ctx, config);
+
       setPlayer({...p, totalpp, rank, countryRank, nclears });
       setStatus('');
 
@@ -133,6 +141,9 @@ export default function PlayerPage() {
               ))}
             </tbody>
           </table>
+
+          <h2>Performance chart</h2>
+          <canvas id="chart"></canvas>
           </>
           }
       </div>
