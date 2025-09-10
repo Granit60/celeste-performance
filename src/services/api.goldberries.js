@@ -1,59 +1,46 @@
 import axios from "axios";
 const api =  (typeof process !== "undefined") ? process.env.GOLDBERRIES_API : import.meta.env.VITE_GOLDBERRIES_API;
+const maxAgeMs = 1000 * 60 * 60 * 24 // 1d
 
-export const GBnPlayer = ( id ) => {
-    return axios.get(`${api}/player?id=${id}&customization=true`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('Error fetching GBnPlayer:', error);
-        });
-};
+const fetchAndCache = async ( key, url, fname) => {
+    const cached = localStorage.getItem(key);
+    if (cached) {
+        const { timestamp, data } = JSON.parse(cached);
+        console.log(data)
+        if (Date.now() - timestamp < maxAgeMs) {
+            return data; 
+        }
+    }
 
-
-export const GBnPlayerSubmissions = ( id ) => {
-    return axios.get(`${api}/player/submissions?arbitrary=true&archived=true&player_id=${id}`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('Error fetching GBnPlayerSubmissions:', error);
-        });
-};
-
-export const GBnPlayerAll = () => {
-    return axios.get(`${api}/player/all?customization=true`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('Error fetching GBnPlayerAll::', error);
-        });
-};
-
-export const GBnStatsPlayerTierClearCounts = () => {
-    return axios.get(`${api}/stats/player-tier-clear-counts`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('Error fetching GBnStatsPlayerTierClearCounts:', error);
-        });
-};
-
-export const GBnDifficulty = () => {
-    return axios.get(`${api}/difficulty?id=all`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('Error fetching GBnDifficulty:', error);
-        });
+    try {
+        const response = await axios.get(url);
+        const data = response.data;
+        localStorage.setItem(key, JSON.stringify({ timestamp: Date.now(), data }));
+        return data;
+    } catch (error) {
+        console.error(`Error fetching ${fname}:`, error);
+        return null;
+    }
 }
 
-export const GBnChallenge = (id) => {
-     return axios.get(`${api}/challenge?id=${id}&submissions=false&depth=3`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('Error fetching GBnChallenge:', error);
-        });
+export const GBnPlayer = async ( id ) => { 
+    return await fetchAndCache(`player-${id}`, `${api}/player?id=${id}&customization=true`, "GBnPlayer"); 
+};
+export const GBnPlayerSubmissions = async ( id ) => {
+    return await fetchAndCache(`sub-${id}`, `${api}/player/submissions?arbitrary=true&archived=true&player_id=${id}`, "GBnPlayerSubmissions")
+};
+export const GBnPlayerAll = async () => {
+    return await fetchAndCache("player-all", `${api}/player/all?customization=true`, "GBnPlayerAll")
+};
+export const GBnStatsPlayerTierClearCounts = async () => {
+    return await fetchAndCache("player-stats", `${api}/stats/player-tier-clear-counts`, "GBnStatsPlayerTierClearCounts")
+};
+export const GBnDifficulty = async () => {
+    return await fetchAndCache("diff", `${api}/difficulty?id=all`, "GBnDifficulty")
 }
-
-export const GBnSearchPlayer = (q) => {
-    return axios.get(`${api}/search?q=${q}&in=players`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('Error fetching GBnSearchPlayer:', error);
-        });
+export const GBnChallenge = async (id) => {
+    return await fetchAndCache(`chall-${id}`,`${api}/challenge?id=${id}&submissions=false&depth=3`,"GBnChallenge")
+}
+export const GBnSearchPlayer = async (q) => {
+    return await fetchAndCache(`search-${q}`, `${api}/search?q=${q}&in=players`, "GBnSearchPlayer")
 }
