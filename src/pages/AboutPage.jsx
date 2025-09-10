@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "./AboutPage.css";
 
 export default function AboutPage() {
@@ -6,6 +6,18 @@ export default function AboutPage() {
     const pp_w = parseFloat(import.meta.env.VITE_PP_W);
     const pp_n = parseInt(import.meta.env.VITE_PP_N);
     const pp_b = parseInt(import.meta.env.VITE_PP_B);
+
+    const [cacheMessage, setCacheMessage] = useState(">Clear my cache!<")
+    const cacheClear = () => {
+        localStorage.clear();
+        const m = "Cache cleared!"
+        for (let i = 0; i<m.length * 3; i++) {
+            setTimeout(() => {
+                const index = i % m.length
+                setCacheMessage(`>${m.substring(0,index)} ${m.substring(index, m.length)}<`)
+            }, i * 50)
+        }
+    }
 
     return (
         <section className="about">
@@ -66,6 +78,10 @@ export default function AboutPage() {
 
                 <h2>What is this made with?</h2>
                 <p>React (i'm bad at it. don't look at the code.)</p>
+
+                <h2>Cache deletion</h2>
+                <p>This website caches requests. If you just got a golden verified, clicking this will update your profile. Alternatively, cache lasts 24h.</p>
+                <div onClick = {() => cacheClear()}><h3>{cacheMessage}</h3></div>
             </div>
         </section>
     )
