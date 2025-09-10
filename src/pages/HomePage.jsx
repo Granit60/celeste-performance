@@ -36,9 +36,13 @@ export default function HomePage() {
       const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n, pp_b);
       const merged = mergePlayerInfoStats(result, allPlayerInfo);
       const sorted = (!id) ? merged : merged.filter((p) => ( p.player.account.country == id)) ;
-      const countriesTemp = [...new Set(merged.map((p) => p.player.account.country))]; // array => set => array for uniqueness
-      const countriesSorted = countriesTemp.sort((a,b) => { return a.localeCompare(b)});
-      
+
+      const regionNames = new Intl.DisplayNames(['en'], { type: "region"});
+      const countriesTemp = [...new Set(merged.map((p) => p.player.account.country))]; // array => set => array for uniqueness c
+      const countriesLabels = countriesTemp.map((c) => { return ({ code: c, label:  c!="__" ? regionNames.of(c.toUpperCase()) : "World" }) })
+      const countriesSorted = (countriesLabels.sort((a, b) => a.label.localeCompare(b.label)));
+      countriesSorted.unshift(countriesSorted.pop()); //put last "World" in first
+
       setStats({
         total: sorted.length,
         top10: sorted[9]?.pp_total.toFixed(2),
@@ -61,7 +65,7 @@ export default function HomePage() {
         <p>Country : 
           <select value={id} onChange={(e) => { navigate(e.target.value == "__" ? "/" : import.meta.env.BASE_URL + "leaderboard/" + e.target.value) }}>
               {countries.map((c) => (
-              <option value={c} key={c}>{c == "__" ? "World" : c}</option>
+              <option value={c.code} key={c.code}>{ c.label }</option>
             ))}
           </select>
         </p>

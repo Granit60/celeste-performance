@@ -54,9 +54,8 @@ export default function AboutPage() {
                 <h2>ToDo list!</h2>
                 <ul>
                     <li>Fix viddie (??)</li>
-                    <li>Labels for country select dropdown</li>
                     <li>Challenges</li>
-                    <li>Lisa randomizer</li>
+                    <li>Player graph</li>
                 </ul>
                 <h2>Who made CelestePerformance?</h2>
                 <p>
