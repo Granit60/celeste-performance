@@ -55,7 +55,6 @@ export default function AboutPage() {
                 <ul>
                     <li>Fix viddie (??)</li>
                     <li>Labels for country select dropdown</li>
-                    <li>Old vs new maps</li>
                     <li>Challenges</li>
                     <li>Lisa randomizer</li>
                 </ul>

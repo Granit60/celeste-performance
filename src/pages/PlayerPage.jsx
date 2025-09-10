@@ -41,10 +41,12 @@ export default function PlayerPage() {
           const ppWeighted = ppRaw * (pp_w ** i);
           const formattedDate = format(new Date(c.date_achieved), 'M/d/yyyy');
           const ago = differenceInDays(new Date(), new Date(c.date_achieved));
-          const fc = c.challenge.requires_fc ? " [FC]" : ""
-          const fullName = (c.challenge.map.name == c.challenge.map.campaign.name) || !c.challenge.map.campaign.name
-            ? c.challenge.map.name + fc
-            : `${c.challenge.map.campaign.name} | ${c.challenge.map.name}` + fc
+          const fullName =
+            (c.challenge.map.is_archived ? "[Old] " : "")
+            + ((c.challenge.map.name == c.challenge.map.campaign.name) || !c.challenge.map.campaign.name
+            ? c.challenge.map.name
+            : `${c.challenge.map.campaign.name} | ${c.challenge.map.name}`)
+            + (c.challenge.requires_fc ? " [FC]" : "")
 
           return {
             ...c,
