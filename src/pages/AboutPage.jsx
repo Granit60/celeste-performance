@@ -51,7 +51,14 @@ export default function AboutPage() {
                         <span className="offset">Current value : <span className="highlight">n = {pp_n}</span></span>
                     </li>
                 </ul>
-
+                <h2>ToDo list!</h2>
+                <ul>
+                    <li>Fix viddie (??)</li>
+                    <li>Labels for country select dropdown</li>
+                    <li>Old vs new maps</li>
+                    <li>Challenges</li>
+                    <li>Lisa randomizer</li>
+                </ul>
                 <h2>Who made CelestePerformance?</h2>
                 <p>
                     <a target="_blank" href="/player/2277">me</a> (using <a target="_blank" href="/player/683">viddie</a>

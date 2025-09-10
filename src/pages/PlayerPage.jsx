@@ -20,6 +20,7 @@ export default function PlayerPage() {
     async function fetchPlayer() {
       setStatus('Fetching player info...');
       const p = await GBnPlayer(id);
+
       if (!p) {
         setStatus('Error fetching player data. Does this user exist?');
         return;
@@ -40,6 +41,10 @@ export default function PlayerPage() {
           const ppWeighted = ppRaw * (pp_w ** i);
           const formattedDate = format(new Date(c.date_achieved), 'M/d/yyyy');
           const ago = differenceInDays(new Date(), new Date(c.date_achieved));
+          const fc = c.challenge.requires_fc ? " [FC]" : ""
+          const fullName = (c.challenge.map.name == c.challenge.map.campaign.name) || !c.challenge.map.campaign.name
+            ? c.challenge.map.name + fc
+            : `${c.challenge.map.campaign.name} | ${c.challenge.map.name}` + fc
 
           return {
             ...c,
@@ -47,7 +52,8 @@ export default function PlayerPage() {
             ppWeighted,
             formattedDate,
             rank: i + 1,
-            ago
+            ago,
+            fullName
           };
       });
 
@@ -90,7 +96,7 @@ export default function PlayerPage() {
         <>
           <div className="playercard">
             <h1>
-              {player.name} • {player.totalpp.toFixed(0)}pp •  #{player.rank}
+              <a target="_blank" href={`https://goldberries.net/player/${player.id}`}>{player.name}</a> • {player.totalpp.toFixed(0)}pp •  #{player.rank}
               {player.countryRank > 0 && <> • #{player.countryRank} <span title={player.account.country} className={`fi fi-${player.account.country}`}></span></>}
             </h1>
             <div className="info">
@@ -116,7 +122,7 @@ export default function PlayerPage() {
               {clears.map(c => (
                 <tr key={c.rank} className="clear">
                   <td>#{c.rank}</td>
-                  <td><a target="_blank" href={`https://goldberries.net/map/${c.challenge.map.id}`}>{c.challenge.map.name}</a></td>
+                  <td><a target="_blank" href={`https://goldberries.net/map/${c.challenge.map.id}`}>{c.fullName}</a></td>
                   <td>{c.challenge.difficulty.sort}</td>
                   <td>{c.ppRaw.toFixed(0)}</td>
                   <td>{`${c.ppWeighted.toFixed(0)} (${(c.ppWeighted/player.totalpp*100).toFixed(1)}%)`}</td>
