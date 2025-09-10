@@ -1,3 +1,5 @@
+import { differenceInMonths, differenceInYears } from "date-fns"; 
+
 export function sortPlayers(players, difficulties, pp_x, pp_w, pp_n, pp_b) {
   const idToSortMap = {};
   difficulties.forEach(diff => {
@@ -82,6 +84,14 @@ export function generatePlayerChart(clears, pp_x, pp_w, pp_n, pp_b) {
       })
     }
   })
+  graphData.push({x: Date.now(), y: graphData.at(-1).y })
+
+  const dates = graphData.map(d => new Date(d.x));
+  const min = new Date(Math.min(...dates));
+  const max = new Date(Math.max(...dates));
+
+  const months = differenceInMonths(max, min);
+  const stepSize = Math.round(months / 12);
 
   const data = {
     datasets: [
@@ -90,11 +100,11 @@ export function generatePlayerChart(clears, pp_x, pp_w, pp_n, pp_b) {
         data: graphData,
         borderColor: "#A98DD6",
         backgroundColor: "white",
-        tension: 0.2,
+        tension: 0.05,
       },
     ],
   };
-  const config = {
+  const options = {
     responsive: true,
     plugins: {
       legend : {
@@ -103,7 +113,13 @@ export function generatePlayerChart(clears, pp_x, pp_w, pp_n, pp_b) {
     },
     scales: {
       x: {
-        type: "category",
+        type: "time",
+        ticks: { stepSize: stepSize },
+        time: {
+          unit: "month",
+          tooltipFormat: "dd MMM yyyy",
+          displayFormats: { month: "MMM yyyy "}
+        },
         title: {
           display: false,
         },
@@ -117,5 +133,5 @@ export function generatePlayerChart(clears, pp_x, pp_w, pp_n, pp_b) {
       },
     },
   };
-  return { options: config, data};
+  return { options, data};
 }

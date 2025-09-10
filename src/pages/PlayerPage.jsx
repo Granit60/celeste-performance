@@ -2,10 +2,16 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { GBnDifficulty, GBnPlayerAll, GBnStatsPlayerTierClearCounts, GBnPlayer, GBnPlayerSubmissions } from '../services/api.goldberries';
 import { mergePlayerInfoStats, sortPlayers, generatePlayerChart } from "../services/celesteperformance";
+
 import { format, differenceInDays } from 'date-fns';
 import "./PlayerPage.css";
+
 import { Chart, registerables } from "chart.js";
 import { Line } from "react-chartjs-2";
+import 'chartjs-adapter-date-fns';
+
+
+Chart.register(...registerables);
 
 export default function PlayerPage() {
   const { id } = useParams();
@@ -88,7 +94,6 @@ export default function PlayerPage() {
       }
 
       setStatus("Creating chart...")
-      Chart.register(...registerables);
 
       const { options, data } = await generatePlayerChart(playerClears, pp_x, pp_w, pp_n, pp_b);
       setChartData(data);
@@ -146,7 +151,9 @@ export default function PlayerPage() {
           </table>
 
           <h2>Performance chart</h2>
-          <Line  options={chartOptions} data={chartData} id="chart"></Line>
+          {chartData && chartOptions && (
+            <Line data={chartData} options={chartOptions} className="chart"/>
+          )}
           </>
           }
       </div>
