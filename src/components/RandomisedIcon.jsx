@@ -6,8 +6,6 @@ export function RandomisedIcon() {
     const iconList = Object.values(icons).map(mod => mod.default);
     const randomIcon = iconList[Math.floor(Math.random() * iconList.length)];
 
-    console.log(randomIcon);
-
     return (
         <Helmet>
             <link rel="icon" type="image/webp" href={ randomIcon }></link>

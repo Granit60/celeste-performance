@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { GBnDifficulty, GBnPlayerAll, GBnStatsPlayerTierClearCounts, GBnPlayer, GBnPlayerSubmissions } from '../services/api.goldberries';
 import { mergePlayerInfoStats, sortPlayers, generatePlayerChart } from "../services/celesteperformance";
 import { format, differenceInDays } from 'date-fns';
 import "./PlayerPage.css";
 import { Chart, registerables } from "chart.js";
+import { Line } from "react-chartjs-2";
 
 export default function PlayerPage() {
   const { id } = useParams();
   const [status, setStatus] = useState('');
   const [player, setPlayer] = useState(null);
   const [clears, setClears] = useState([]);
+
+  const [chartData, setChartData] = useState(null);
+  const [chartOptions, setChartOptions] = useState(null);
 
   const pp_x = parseFloat( import.meta.env.VITE_PP_X);
   const pp_w = parseFloat(import.meta.env.VITE_PP_W);
@@ -85,14 +89,13 @@ export default function PlayerPage() {
 
       setStatus("Creating chart...")
       Chart.register(...registerables);
-      const ctx = document.getElementById("chart");
-      console.log(playerClears);
-      const config = await generatePlayerChart(playerClears, pp_x, pp_w, pp_n, pp_b);
-      new Chart(ctx, config);
+
+      const { options, data } = await generatePlayerChart(playerClears, pp_x, pp_w, pp_n, pp_b);
+      setChartData(data);
+      setChartOptions(options)
 
       setPlayer({...p, totalpp, rank, countryRank, nclears });
       setStatus('');
-
     }
     fetchPlayer();
   }, [id]);
@@ -143,7 +146,7 @@ export default function PlayerPage() {
           </table>
 
           <h2>Performance chart</h2>
-          <canvas id="chart"></canvas>
+          <Line  options={chartOptions} data={chartData} id="chart"></Line>
           </>
           }
       </div>

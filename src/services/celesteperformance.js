@@ -95,31 +95,27 @@ export function generatePlayerChart(clears, pp_x, pp_w, pp_n, pp_b) {
     ],
   };
   const config = {
-    type: "line",
-    data: data,
-    options: {
-      responsive: true,
-      plugins: {
-        legend : {
-          display: false
-        }
-      },
-      scales: {
-        x: {
-          type: "category",
-          title: {
-            display: false,
-          },
+    responsive: true,
+    plugins: {
+      legend : {
+        display: false
+      }
+    },
+    scales: {
+      x: {
+        type: "category",
+        title: {
+          display: false,
         },
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: "PP",
-          },
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "PP",
         },
       },
     },
   };
-  return config;
+  return { options: config, data};
 }
