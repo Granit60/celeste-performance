@@ -29,3 +29,4 @@ dist-ssr
 **/*.css
 *.css.map
 **/*.css.map
+public/sitemap.xml 

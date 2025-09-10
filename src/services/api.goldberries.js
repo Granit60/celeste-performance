@@ -1,5 +1,5 @@
 import axios from "axios";
-const api = import.meta.env.VITE_GOLDBERRIES_API;
+const api =  (typeof process !== "undefined") ? process.env.GOLDBERRIES_API : import.meta.env.VITE_GOLDBERRIES_API;
 
 export const GBnPlayer = ( id ) => {
     return axios.get(`${api}/player?id=${id}&customization=true`)
