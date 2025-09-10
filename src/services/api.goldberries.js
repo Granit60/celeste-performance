@@ -1,9 +1,11 @@
 import axios from "axios";
+import { safeLocalStorage } from "./browserwrapper.js";
+
 const api =  (typeof process !== "undefined") ? process.env.GOLDBERRIES_API : import.meta.env.VITE_GOLDBERRIES_API;
 const maxAgeMs = 1000 * 60 * 60 * 24 // 1d
 
 const fetchAndCache = async ( key, url, fname) => {
-    const cached = localStorage.getItem(key);
+    const cached = safeLocalStorage.getItem(key);
     if (cached) {
         const { timestamp, data } = JSON.parse(cached);
         console.log(data)
@@ -15,7 +17,7 @@ const fetchAndCache = async ( key, url, fname) => {
     try {
         const response = await axios.get(url);
         const data = response.data;
-        localStorage.setItem(key, JSON.stringify({ timestamp: Date.now(), data }));
+        safeLocalStorage.setItem(key, JSON.stringify({ timestamp: Date.now(), data }));
         return data;
     } catch (error) {
         console.error(`Error fetching ${fname}:`, error);

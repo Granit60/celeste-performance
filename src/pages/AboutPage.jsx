@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { safeLocalStorage } from "../services/browserwrapper";
 import "./AboutPage.css";
 
 export default function AboutPage() {
@@ -9,7 +10,7 @@ export default function AboutPage() {
 
     const [cacheMessage, setCacheMessage] = useState(">Clear my cache!<")
     const cacheClear = () => {
-        localStorage.clear();
+        safeLocalStorage.clear();
         const m = "Cache cleared!"
         for (let i = 0; i<m.length * 3; i++) {
             setTimeout(() => {
