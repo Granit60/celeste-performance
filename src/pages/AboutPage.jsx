@@ -66,7 +66,7 @@ export default function AboutPage() {
                 </ul>
                 <h2>ToDo list!</h2>
                 <ul>
-                    <li>Fix viddie (??)</li>
+                    <li>Known issue : some maps appear on profile, but aren't counted for leaderboard (ex: viddie, Kongtiao)</li>
                     <li>Make the thing look nicer probably</li>
                 </ul>
                 <h2>Who made CelestePerformance?</h2>

@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Navigate, useNavigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { GBnDifficulty, GBnStatsPlayerTierClearCounts, GBnPlayerAll } from '../services/api.goldberries';
 import { sortPlayers, mergePlayerInfoStats } from '../services/celesteperformance';
 import "./HomePage.css";
 
 export default function HomePage() {
-  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get('id') ?? "__"
+  const page = searchParams.get('page') ?? 1
+
+  const offset = (page - 1) * 10;
+
   const navigate = useNavigate();
-  if (id == "__") {return (<Navigate to ={import.meta.env.BASE_URL} replace/>)}
   
   const [players, setPlayers] = useState([]);
   const [countries, setCountries] = useState([]);
   const [stats, setStats] = useState({});
-  const [status, setStatus] = useState('Loading leaderboard...');
+  const [status, setStatus] = useState('Loading leaderboard...');;
 
   const pp_x = parseFloat( import.meta.env.VITE_PP_X);
   const pp_w = parseFloat(import.meta.env.VITE_PP_W);
@@ -35,7 +39,7 @@ export default function HomePage() {
       setStatus('Calculating players performance...');
       const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n, pp_b);
       const merged = mergePlayerInfoStats(result, allPlayerInfo);
-      const sorted = (!id) ? merged : merged.filter((p) => ( p.player.account.country == id)) ;
+      const sorted = (id == "__") ? merged : merged.filter((p) => ( p.player.account.country == id)) ;
 
       const regionNames = new Intl.DisplayNames(['en'], { type: "region"});
       const countriesTemp = [...new Set(merged.map((p) => p.player.account.country))]; // array => set => array for uniqueness c
@@ -49,12 +53,12 @@ export default function HomePage() {
         top100: sorted[99]?.pp_total.toFixed(2),
         top1000: sorted[999]?.pp_total.toFixed(2),
       });
-      setPlayers(sorted.slice(0,10));
+      setPlayers(sorted.slice(offset, offset + 10));
       setCountries(countriesSorted);
       setStatus(sorted.length > 0 ? '' : 'No players found.');
     }
     fetchData();
-  }, [id]);
+  }, [id, page]);
 
   return (
     <section className="home">
@@ -63,13 +67,22 @@ export default function HomePage() {
         {players && status == '' &&
         <>
         <p>Country : 
-          <select value={id} onChange={(e) => { navigate(e.target.value == "__" ? "/" : import.meta.env.BASE_URL + "leaderboard/" + e.target.value) }}>
+          <select value={id} onChange={(e) => { navigate(e.target.value == "__" ? "/" : `${import.meta.env.BASE_URL}leaderboard?id=${e.target.value}`) }}>
               {countries.map((c) => (
               <option value={c.code} key={c.code}>{ c.label }</option>
             ))}
           </select>
         </p>
-        <h2>Leaderboard</h2>
+        <p className="page">
+          { page > 1 && 
+            <a  onClick = {() => { navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&page=${parseInt(page)-1}`) }}>Prev |</a> 
+          }
+          <span> {page} </span>
+          { (offset + 10 < stats.total) &&
+            <a onClick = {() => { navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&page=${parseInt(page)+1}`) }}>| Next</a>
+          }
+        </p>
+        <h2></h2>
         <table className="leaderboard">
           <thead>
             <tr>
@@ -84,7 +97,7 @@ export default function HomePage() {
           <tbody>
             {players.map((p, i) => (
               <tr key={p.player.id}>
-                <td>#{i + 1}</td>
+                <td>#{i + 1 + offset}</td>
                 <td>{p.player.account.country != "__" && <span title={p.player.account.country} className={`fi fi-${p.player.account.country}`}></span>}</td>
                 <td><a href={`/player/${p.player.id}`}> {p.player.name}</a> </td>
                 <td>{p.pp_total.toFixed(0)}</td>
@@ -96,7 +109,7 @@ export default function HomePage() {
         </table>
         <h2></h2>
         <div className="stats">
-          <p className="showing">Showing top {stats.total < pp_n ? stats.total : pp_n } out of {stats.total} players</p>
+          <p className="showing">Showing {stats.total < 10 ? stats.total : 10 } out of {stats.total} players</p>
           {stats.total >= 10 && <p>Top 10 is {stats.top10}pp</p>}
           {stats.total >= 100 && <p>Top 100 is {stats.top100}pp</p>}
           {stats.total >= 1000 &&  <p>Top 1000 is {stats.top1000}pp</p>}
