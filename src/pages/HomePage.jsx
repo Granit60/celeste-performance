@@ -74,24 +74,20 @@ export default function HomePage() {
           </select>
         </p>
         <p className="page">
-          { page > 1 && 
-            <a  onClick = {() => { navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&page=${parseInt(page)-1}`) }}>Prev |</a> 
-          }
+          <a  className={ page <= 1 ? "hidden" : ""} onClick = {() => { if (page > 1) navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&page=${parseInt(page)-1}`) }}>Prev |</a> 
           <span> {page} </span>
-          { (offset + 10 < stats.total) &&
-            <a onClick = {() => { navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&page=${parseInt(page)+1}`) }}>| Next</a>
-          }
+          <a className={ (offset + 10 >= stats.total) ? "hidden" : ""} onClick = {() => { if (offset + 10 < stats.total) navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&page=${parseInt(page)+1}`) }}>| Next</a>
         </p>
         <h2></h2>
         <table className="leaderboard">
           <thead>
             <tr>
-              <th className="small"></th>
-              <th className="small"></th>
-              <th>Player</th>
-              <th>PP</th>
-              <th>Top Clears</th>
-              <th>Number of Clears</th>
+              <th style={{width: "3%"}}></th>
+              <th style={{width: "2%"}}></th>
+              <th style={{width: "20%"}}>Player</th>
+              <th style={{width: "10%"}}>PP</th>
+              <th style={{width: "40%"}}>Top Clears</th>
+              <th style={{width: "20%"}}>Number of Clears</th>
             </tr>
           </thead>
           <tbody>
@@ -109,7 +105,7 @@ export default function HomePage() {
         </table>
         <h2></h2>
         <div className="stats">
-          <p className="showing">Showing {stats.total < 10 ? stats.total : 10 } out of {stats.total} players</p>
+          <p className="showing">Showing { Math.min(players.length, 10)} out of {stats.total} players</p>
           {stats.total >= 10 && <p>Top 10 is {stats.top10}pp</p>}
           {stats.total >= 100 && <p>Top 100 is {stats.top100}pp</p>}
           {stats.total >= 1000 &&  <p>Top 1000 is {stats.top1000}pp</p>}

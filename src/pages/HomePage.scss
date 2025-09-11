@@ -20,6 +20,9 @@
             a {
                 @include a();
             }
+            .hidden {
+                opacity: 0;
+            }
         }
         .leaderboard {
             width: 100%;
