@@ -53,11 +53,14 @@ export default function PlayerPage() {
           const formattedDate = format(new Date(c.date_achieved), 'M/d/yyyy');
           const ago = differenceInDays(new Date(), new Date(c.date_achieved));
           const fullName =
-            (c.challenge.map.is_archived ? "[Old] " : "")
-            + ((c.challenge.map.name == c.challenge.map.campaign.name) || !c.challenge.map.campaign.name
-            ? c.challenge.map.name
-            : `${c.challenge.map.campaign.name} | ${c.challenge.map.name}`)
-            + (c.challenge.requires_fc ? " [FC]" : "")
+            c.challenge.map ?
+             ((c.challenge.map.is_archived ? "[Old] " : "")
+              + ((c.challenge.map.name == c.challenge.map.campaign.name) || !c.challenge.map.campaign.name
+              ? c.challenge.map.name
+              : `${c.challenge.map.campaign.name} | ${c.challenge.map.name}`)
+              + (c.challenge.requires_fc ? " [FC]" : "")
+            ) : `${c.challenge.campaign.name} | ${c.challenge.label}`
+          const link = c.challenge.map ? `https://goldberries.net/map/${c.challenge.map.id}` : `https://goldberries.net/challenge/${c.challenge.id}`
 
           return {
             ...c,
@@ -66,7 +69,8 @@ export default function PlayerPage() {
             formattedDate,
             rank: i + 1,
             ago,
-            fullName
+            fullName,
+            link
           };
       });
 
@@ -140,7 +144,7 @@ export default function PlayerPage() {
               {clears.map(c => (
                 <tr key={c.rank} className="clear">
                   <td>#{c.rank}</td>
-                  <td><a target="_blank" href={`https://goldberries.net/map/${c.challenge.map.id}`}>{c.fullName}</a></td>
+                  <td><a target="_blank" href={c.link}>{c.fullName}</a></td>
                   <td>{c.challenge.difficulty.sort}</td>
                   <td>{c.ppRaw.toFixed(0)}</td>
                   <td>{`${c.ppWeighted.toFixed(0)} (${(c.ppWeighted/player.totalpp*100).toFixed(1)}%)`}</td>

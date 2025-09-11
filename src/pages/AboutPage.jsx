@@ -67,7 +67,6 @@ export default function AboutPage() {
                 <h2>ToDo list!</h2>
                 <ul>
                     <li>Fix viddie (??)</li>
-                    <li>Challenges</li>
                     <li>Make the thing look nicer probably</li>
                 </ul>
                 <h2>Who made CelestePerformance?</h2>

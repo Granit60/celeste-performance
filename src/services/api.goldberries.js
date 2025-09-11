@@ -8,7 +8,6 @@ const fetchAndCache = async ( key, url, fname) => {
     const cached = safeLocalStorage.getItem(key);
     if (cached) {
         const { timestamp, data } = JSON.parse(cached);
-        console.log(data)
         if (Date.now() - timestamp < maxAgeMs) {
             return data; 
         }
