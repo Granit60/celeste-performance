@@ -9,17 +9,21 @@ export default function SearchPage() {
 
     const handleInput = (e) => {
         setQuery(e.target.value);
-        search(e.target.value);
     }
 
-    async function search(q)  {
-        if (q) {
+    useEffect(() => {
+        if (!query) return;
+
+        const timeout = setTimeout(async () => {
             setStatus("Fetching query...");
-            const r = await GBnSearchPlayer(q);
+            const r = await GBnSearchPlayer(query);
             setResults(r);
-            setStatus((r.players.length == 0) ? "No results." : "" );
-        }
-    }
+            setStatus(r.players.length === 0 ? "No results." : "");
+        }, 300);
+
+        return () => clearTimeout(timeout); 
+        }, [query]
+    );
 
     return (
     <section className="search">
@@ -27,13 +31,13 @@ export default function SearchPage() {
             <input className="searchbar" placeholder="Search..." maxLength="32" onInput={handleInput}></input>
             <h2>Results</h2>
             <div className="results">
-                    {(results.players && results.players.length > 0) ? results.players.map((p) => (
-                        <div className="player" key={p.id}>
-                            <a href={`/player/${p.id}`}>{p.name}</a>
-                        </div>
-                    )) : (query && query.length > 2 ? <p>{status}</p> : "")
-                    }
-                </div>
+                {(results.players && results.players.length > 0) ? results.players.map((p) => (
+                    <div className="player" key={p.id}>
+                        <a href={`/player/${p.id}`}>{p.name}</a>
+                    </div>
+                )) : (query && query.length > 2 ? <p>{status}</p> : "")
+                }
+            </div>
       </div>
     </section>
     );

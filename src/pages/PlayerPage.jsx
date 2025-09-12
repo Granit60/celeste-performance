@@ -97,12 +97,12 @@ export default function PlayerPage() {
         countryRank = countryPlayers.findIndex(entry => entry.id === p.id) + 1;
       }
 
-      setStatus("Creating chart...")
-
-      const { options, data } = await generatePlayerChart(playerClears, pp_x, pp_w, pp_n, pp_b);
-      setChartData(data);
-      setChartOptions(options)
-
+      if (topClears.length > 1) {
+        setStatus("Creating chart...")
+        const { options, data } = await generatePlayerChart(playerClears, pp_x, pp_w, pp_n, pp_b);
+        setChartData(data);
+        setChartOptions(options)
+      }
       setPlayer({...p, totalpp, rank, countryRank, nclears });
       setStatus('');
     }
@@ -154,9 +154,11 @@ export default function PlayerPage() {
             </tbody>
           </table>
 
-          <h2>Performance chart</h2>
-          {chartData && chartOptions && (
+          {clears.length > 1 && chartData && chartOptions && (
+            <>
+            <h2>Performance chart</h2>
             <Line data={chartData} options={chartOptions} className="chart"/>
+            </>
           )}
           </>
           }
