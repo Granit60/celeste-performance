@@ -66,9 +66,6 @@ export default function AboutPage() {
                 </ul>
                 <h2>ToDo list!</h2>
                 <ul>
-                    <li><span style={{textDecoration: "line-through"}} >Known issue : silver maps appear on profile, but aren't counted for leaderboard (ex: viddie, Kongtiao)</span>
-                    &nbsp;quirk of the API, may or may not be fixed
-                    </li>
                     <li>Make it responsive!! (do not attempt to load this website on a phone)</li>
                     <li>Make the thing look nicer probably</li>
                 </ul>
