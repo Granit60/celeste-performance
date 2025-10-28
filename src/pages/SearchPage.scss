@@ -1,31 +1,33 @@
-@import "../css/_main.scss";
+@use "../css/_main.scss";
+@use "../css/mixin";
+@use "../css/variables";
 
 .search {
     height: 90%;
     .landing {
-        @include landing();
+        @include mixin.landing();
         .searchbar {
             font-size: 1.2rem;
             padding: .5%;
             margin-bottom: 1%;
 
-            background-color: $col-brand-1;
-            color: $col-bg-1;
-            border: 1px solid $col-bg-1;
+            background-color: variables.$col-brand-1;
+            color: variables.$col-bg-1;
+            border: 1px solid variables.$col-bg-1;
             border-radius: 4px;
             &::placeholder {
-                color: $col-brand-2;
+                color: variables.$col-brand-2;
             }
         }
         h2 {
-            @include horizontalSeparator();
+            @include mixin.horizontalSeparator();
         }
         .results {
             font-size: 1.2rem;
             .player {
                 padding: .5% 0 0 0;
                 a {
-                    @include a();
+                    @include mixin.a();
                 }
             }
         }

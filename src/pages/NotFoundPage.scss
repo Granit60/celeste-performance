@@ -1,9 +1,10 @@
-@import "../css/_main.scss";
+@use "../css/_main.scss";
+@use "../css/mixin";
 
 .notfound {
     height: 90%;
     .landing {
-        @include landing();
+        @include mixin.landing();
 
         margin-top: 5%;
 

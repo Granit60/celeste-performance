@@ -1,7 +1,9 @@
+@use "../css/variables";
+
 @mixin horizontalSeparator {
     padding-bottom: .5%;
     margin-bottom: 1%;
-    border-bottom: 2px solid $col-brand-2;
+    border-bottom: 2px solid variables.$col-brand-2;
 }
 @mixin fi {
     border-radius: 4px;
@@ -9,15 +11,15 @@
 @mixin landing {
     height: 100%;
     position: relative;
-    background-color: $col-brand-1;
+    background-color: variables.$col-brand-1;
     overflow: hidden;
-    color: $col-bg-1;
+    color: variables.$col-bg-1;
     padding: 3%;
 }
 @mixin a {
-    color: $col-bg-1;
+    color: variables.$col-bg-1;
     &:hover {
-        color: $col-brand-2;
+        color: variables.$col-brand-2;
     }
 }
 @mixin tier-container {
@@ -33,5 +35,5 @@
             border-right: 0px;
         }
     }
-    @each $k, $v in $cols-t { .tier-t#{$k} { background-color: $v; }}
+    @each $k, $v in variables.$cols-t { .tier-t#{$k} { background-color: $v; }}
 }

@@ -1,4 +1,6 @@
-@import "../css/_main.scss";
+@use "../css/_main.scss";
+@use "../css/mixin";
+@use "../css/variables";
 
 footer {
     position: fixed;
@@ -6,14 +8,14 @@ footer {
     left: 0;
 
     font-size: .8rem;
-    font-weight: $font-weight-medium-bold;
-    color: $col-bg-1;
+    font-weight: variables.$font-weight-medium-bold;
+    color: variables.$col-bg-1;
     width: 100%;
     text-align: center;
-    text-shadow: 2px 2px 1px $col-brand-1;
+    text-shadow: 2px 2px 1px variables.$col-brand-1;
 
     z-index: 100;
     a {
-        @include a();
+        @include mixin.a();
     }
 }

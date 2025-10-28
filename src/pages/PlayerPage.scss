@@ -1,21 +1,23 @@
-@import "../css/_main.scss";
+@use "../css/_main.scss";
+@use "../css/mixin";
+@use "../css/variables";
 
 .player {
     height: 90%;
     .landing {
-        @include landing();
+        @include mixin.landing();
         h2 {
-            @include horizontalSeparator();
+            @include mixin.horizontalSeparator();
         }
         .playercard {
             margin-bottom: 2%;
             h1 {
                 margin-bottom: 1%;
                 .fi {
-                    @include fi();
+                    @include mixin.fi();
                 }
                 a{
-                    @include a();
+                    @include mixin.a();
                 }
             }
             .info {
@@ -26,7 +28,7 @@
             }
         }
         .tier-container {
-            @include tier-container();
+            @include mixin.tier-container();
         }
         .showcase {
             width: 100%;
@@ -40,10 +42,10 @@
                 td {
                     padding: .5%;
                     a {
-                        @include a();
+                        @include mixin.a();
                     }
                 }
-                @each $k, $v in $cols-t { .tier-t#{$k} { color: $v; }}
+                @each $k, $v in variables.$cols-t { .tier-t#{$k} { color: $v; }}
             }
         }
         .chart {

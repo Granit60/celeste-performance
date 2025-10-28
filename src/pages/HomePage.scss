@@ -1,24 +1,26 @@
-@import "../css/_main.scss";
+@use "../css/_main.scss";
+@use "../css/mixin";
+@use "../css/variables";
 
 .home {
     height: 90%;
     .landing {
-        @include landing();
+        @include mixin.landing();
         h2 {
-            @include horizontalSeparator();
+            @include mixin.horizontalSeparator();
         }
         p select {
             padding: .2%;
             margin-left: .5%;
-            background-color: $col-brand-1;
-            color: $col-bg-1;
-            border: 1px solid $col-bg-1;
+            background-color: variables.$col-brand-1;
+            color: variables.$col-bg-1;
+            border: 1px solid variables.$col-bg-1;
             border-radius: 4px;
         }
         .page {
             text-align: center;
             a {
-                @include a();
+                @include mixin.a();
             }
             .hidden {
                 opacity: 0;
@@ -41,22 +43,22 @@
                 td {
                     padding: .5%;
                     a {
-                        @include a();
+                        @include mixin.a();
                     }
                     .fi {
-                        @include fi();
+                        @include mixin.fi();
                     }
                 }
                 .tiers .tier-container {
                     width: 90%;
-                    @include tier-container();
+                    @include mixin.tier-container();
                 }
             }
         }
         .stats {
             margin-top: 2%;
             p a {
-                @include a();
+                @include mixin.a();
             }
         }
     } 
