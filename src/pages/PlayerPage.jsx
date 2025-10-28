@@ -18,6 +18,7 @@ export default function PlayerPage() {
   const [status, setStatus] = useState('');
   const [player, setPlayer] = useState(null);
   const [clears, setClears] = useState([]);
+  const [groupedClears, setGroupedClears] = useState([]);
 
   const [chartData, setChartData] = useState(null);
   const [chartOptions, setChartOptions] = useState(null);
@@ -75,8 +76,10 @@ export default function PlayerPage() {
       });
 
       const totalpp = (topClears.reduce((acc, curr) => acc + curr.ppWeighted, 0))
+      const groupedClears = topClears.reduce((acc, c) => {let num = c.challenge.difficulty.sort; acc[num] = (acc[num] || 0) + 1; return acc;}, {});
 
       setClears(topClears)
+      setGroupedClears(groupedClears);
 
       setStatus('Fetching players info...');
       const allPlayerInfo = await GBnPlayerAll();
@@ -129,6 +132,11 @@ export default function PlayerPage() {
           </div>
 
           <h2>Top Clears Showcase</h2>
+          <div className="tier-container">
+            {Object.entries(groupedClears).reverse().map(([k, v]) => (
+                <div key={k} className={`tier tier-t${k}`} style={{width: v*(pp_n/Math.min(player.nclears, pp_n))*4 + '%'}} title={`T${k}: ${v}`}></div>
+              ))}
+          </div>
           <table className="showcase">
             <thead>
               <tr>

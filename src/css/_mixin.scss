@@ -20,3 +20,18 @@
         color: $col-brand-2;
     }
 }
+@mixin tier-container {
+    display: flex;
+    align-items: center;
+    height: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    .tier {
+        height: 100%;
+        border-right: 1px solid black;
+        &:last-child {
+            border-right: 0px;
+        }
+    }
+    @each $k, $v in $cols-t { .tier-t#{$k} { background-color: $v; }}
+}

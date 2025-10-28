@@ -25,6 +25,9 @@
                 }
             }
         }
+        .tier-container {
+            @include tier-container();
+        }
         .showcase {
             width: 100%;
             border-collapse: collapse;
