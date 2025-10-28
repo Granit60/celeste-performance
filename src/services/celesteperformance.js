@@ -91,7 +91,7 @@ export function generatePlayerChart(clears, pp_x, pp_w, pp_n, pp_b) {
   const max = new Date(Math.max(...dates));
 
   const months = differenceInMonths(max, min);
-  const stepSize = Math.round(months / 12);
+  const stepSize = Math.max(Math.round(months / 12), 1);
 
   const data = {
     datasets: [
