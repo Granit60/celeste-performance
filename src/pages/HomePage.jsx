@@ -40,6 +40,8 @@ export default function HomePage() {
       const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n, pp_b);
       const merged = mergePlayerInfoStats(result, allPlayerInfo);
       const sorted = (id == "__") ? merged : merged.filter((p) => ( p.player.account.country == id)) ;
+      const reduced = sorted.map((p) => ({...p, 
+        clears: p.clears.reduce((acc, num) => {acc[num] = (acc[num] || 0) + 1; return acc;}, {}) }));
 
       const regionNames = new Intl.DisplayNames(['en'], { type: "region"});
       const countriesTemp = [...new Set(merged.map((p) => p.player.account.country))]; // array => set => array for uniqueness c
@@ -48,14 +50,14 @@ export default function HomePage() {
       countriesSorted.unshift(countriesSorted.pop()); //put last "World" in first
 
       setStats({
-        total: sorted.length,
-        top10: sorted[9]?.pp_total.toFixed(2),
-        top100: sorted[99]?.pp_total.toFixed(2),
-        top1000: sorted[999]?.pp_total.toFixed(2),
+        total: reduced.length,
+        top10: reduced[9]?.pp_total.toFixed(2),
+        top100: reduced[99]?.pp_total.toFixed(2),
+        top1000: reduced[999]?.pp_total.toFixed(2),
       });
-      setPlayers(sorted.slice(offset, offset + 10));
+      setPlayers(reduced.slice(offset, offset + 10));
       setCountries(countriesSorted);
-      setStatus(sorted.length > 0 ? '' : 'No players found.');
+      setStatus(reduced.length > 0 ? '' : 'No players found.');
     }
     fetchData();
   }, [id, page]);
@@ -86,7 +88,7 @@ export default function HomePage() {
               <th style={{width: "2%"}}></th>
               <th style={{width: "20%"}}>Player</th>
               <th style={{width: "10%"}}>PP</th>
-              <th style={{width: "40%"}}>Top Clears</th>
+              <th style={{width: "40%"}}>Top Clears (#{pp_n})</th>
               <th style={{width: "20%"}}>Number of Clears</th>
             </tr>
           </thead>
@@ -97,7 +99,13 @@ export default function HomePage() {
                 <td>{p.player.account.country != "__" && <span title={p.player.account.country} className={`fi fi-${p.player.account.country}`}></span>}</td>
                 <td><a href={`/player/${p.player.id}`}> {p.player.name}</a> </td>
                 <td>{p.pp_total.toFixed(0)}</td>
-                <td>{p.clears.join(', ')}</td>
+                <td className="tiers">
+                <div key={i} className="tier-container">
+                  {Object.entries(p.clears).reverse().map(([k, v]) => (
+                      <div key={k} className={`tier tier-t${k}`} style={{width: v*(pp_n/Math.min(p.nclears, pp_n))*4 + '%'}} title={`T${k}: ${v}`}></div>
+                    ))}
+                  </div>
+                </td>
                 <td>{p.nclears}</td>
               </tr>
             ))}

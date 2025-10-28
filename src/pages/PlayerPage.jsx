@@ -142,10 +142,10 @@ export default function PlayerPage() {
             </thead>
             <tbody>
               {clears.map(c => (
-                <tr key={c.rank} className="clear">
+                <tr key={c.rank}>
                   <td>#{c.rank}</td>
                   <td><a target="_blank" href={c.link}>{c.fullName}</a></td>
-                  <td>{c.challenge.difficulty.sort}</td>
+                  <td className={`tier-t${c.challenge.difficulty.sort}`}>{c.challenge.difficulty.sort}</td>
                   <td>{c.ppRaw.toFixed(0)}</td>
                   <td>{`${c.ppWeighted.toFixed(0)} (${(c.ppWeighted/player.totalpp*100).toFixed(1)}%)`}</td>
                   <td>{c.formattedDate} ({c.ago} days ago)</td>
