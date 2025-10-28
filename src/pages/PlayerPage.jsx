@@ -45,6 +45,7 @@ export default function PlayerPage() {
 
       setStatus(`Sorting top ${pp_n}...`);
       const topClears = playerClears
+        .filter((c) => !c.is_obsolete)
         .sort((a, b) => b.challenge.difficulty.sort - a.challenge.difficulty.sort)
         .slice(0, pp_n)
         .map((c, i) => {
