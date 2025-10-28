@@ -66,21 +66,24 @@ export default function AboutPage() {
                 </ul>
                 <h2>ToDo list!</h2>
                 <ul>
-                    <li>Known issue : some maps appear on profile, but aren't counted for leaderboard (ex: viddie, Kongtiao)</li>
+                    <li><span style={{textDecoration: "line-through"}} >Known issue : silver maps appear on profile, but aren't counted for leaderboard (ex: viddie, Kongtiao)</span>
+                    &nbsp;quirk of the API, may or may not be fixed
+                    </li>
+                    <li>Make it responsive!! (do not attempt to load this website on a phone)</li>
                     <li>Make the thing look nicer probably</li>
                 </ul>
                 <h2>Who made CelestePerformance?</h2>
                 <p>
                     <a target="_blank" href="/player/2277">me</a> (using <a target="_blank" href="/player/683">viddie</a>
                     's goldenberries API 
-                    & with help from <a target="_blank" href="/player/38">Cr33pyCat</a>)
+                    & with help from <a target="_blank" href="/player/38">Cr33pyCat</a>, viddie)
                 </p>
 
                 <h2>What is this made with?</h2>
                 <p>React (i'm bad at it. don't look at the code.)</p>
 
                 <h2>Cache deletion</h2>
-                <p>This website caches requests. If you just got a golden verified, clicking this will update your profile. Alternatively, cache lasts 24h.</p>
+                <p>This website caches requests. If you just got a golden verified, clicking this will update your profile. </p>
                 <div onClick = {() => cacheClear()}><h3>{cacheMessage}</h3></div>
             </div>
         </section>
