@@ -50,7 +50,7 @@ export default function PlayerPage() {
         .slice(0, pp_n)
         .map((c, i) => {
           const sort = c.challenge.difficulty.sort;
-          const ppRaw = sort ** pp_x * pp_b;
+          const ppRaw = 0.55 * (pp_x ** sort + pp_b * sort ** pp_x);
           const ppWeighted = ppRaw * (pp_w ** i);
           const formattedDate = format(new Date(c.date_achieved), 'M/d/yyyy');
           const ago = differenceInDays(new Date(), new Date(c.date_achieved));

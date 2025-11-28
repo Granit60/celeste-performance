@@ -21,7 +21,7 @@ export function sortPlayers(players, difficulties, pp_x, pp_w, pp_n, pp_b) {
     }
 
     const top = sortClears.sort((a, b) => b - a).slice(0, pp_n);
-    const ppValues = top.map((t, i) => t ** pp_x * pp_b * (pp_w ** i));
+    const ppValues = top.map((t, i) =>  0.55 * (pp_w ** i) * (pp_b * t  ** pp_x + pp_x ** t ));
     const total = ppValues.reduce((acc, curr) => acc + curr, 0);
 
     return {
@@ -80,7 +80,7 @@ export function generatePlayerChart(clears, pp_x, pp_w, pp_n, pp_b) {
     
     graphData.push({
       x: c.date_achieved.substring(0,10), 
-      y: clearData.reduce((acc, curr, index) => acc + (curr ** pp_x * pp_b * (pp_w ** index)), 0) //pp math
+      y: clearData.reduce((acc, curr, index) => acc + (pp_x ** curr  + pp_b * (pp_w ** index)), 0) //pp math
       })
     }
   })

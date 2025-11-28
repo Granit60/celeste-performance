@@ -37,13 +37,13 @@ export default function AboutPage() {
                      your personal pp value through a decreasing weighted average. 
                      This means your #1 achievement is worth more than your #2, etc. </p>
                 <p>The exact values used for computing are subject to changes, but here are the formula, the variables and what they mean : </p>
-                <p class="highlight">{`total_pp = SUM(i=0, n-1, i++) { t ^ x * ${pp_b} * (w ^ i) }`}</p>
+                <p class="highlight">{`total_pp = SUM(i=0, n-1, i++) { x ^ t + ${pp_b} * (w ^ i) }`}</p>
                 <ul>
                     <li>
                         t is the tier of the clear;
                     </li>
                     <li>
-                        x is the exponent the tier is raised to. This is meant to create gaps between each tier progressively bigger,
+                        x is the base we raise to the tier. This is meant to create gaps between each tier exponentially bigger,
                         in contrast to having t1 =&gt; t2 being the same gap as t15 =&gt; t16;
                     <br></br>
                     <span className="offset">Current value : <span className="highlight">x = {pp_x}</span></span>
