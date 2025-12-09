@@ -28,10 +28,13 @@ export default function HomePage() {
     async function fetchData() {
       setStatus('Fetching players info...');
       const allPlayerInfo = await GBnPlayerAll();
+      if (!allPlayerInfo) { setStatus("Error fetching player info."); return; }
       setStatus('Fetching players stats...');
       const allPlayers = await GBnStatsPlayerTierClearCounts();
+      if (!allPlayers) { setStatus("Error fetching player clear counts."); return; }
       setStatus('Fetching tiers info...');
       const difficulties = await GBnDifficulty();
+      if (!allPlayerInfo) { setStatus("Error fetching difficulties info."); return; }
 
       const idToSortMap = {};
       difficulties.forEach(diff => idToSortMap[diff.id] = diff.sort);

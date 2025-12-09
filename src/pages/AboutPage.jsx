@@ -11,13 +11,7 @@ export default function AboutPage() {
     const [cacheMessage, setCacheMessage] = useState(">Clear my cache!<")
     const cacheClear = () => {
         safeLocalStorage.clear();
-        const m = "Cache cleared!"
-        for (let i = 0; i<m.length * 3; i++) {
-            setTimeout(() => {
-                const index = i % m.length
-                setCacheMessage(`>${m.substring(0,index)} ${m.substring(index, m.length)}<`)
-            }, i * 50)
-        }
+        setCacheMessage(">Cache cleared!<");
     }
 
     return (

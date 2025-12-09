@@ -34,13 +34,15 @@ export default function PlayerPage() {
       const p = await GBnPlayer(id);
 
       if (!p) {
-        setStatus('Error fetching player data. Does this user exist?');
-        return;
+        setStatus('Error fetching player data. Does this user exist?'); return;
       }
       setPlayer(p);
 
       setStatus('Fetching player submissions...');
       const playerClears = await GBnPlayerSubmissions(id);
+      if (!playerClears) {
+        setStatus("Error fetching player submissions. Try clearing cache."); return;
+      }
       const nclears = playerClears.length;
 
       setStatus(`Sorting top ${pp_n}...`);
