@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GBnDifficulty, GBnPlayerAll, GBnStatsPlayerTierClearCounts, GBnPlayer, GBnPlayerSubmissions } from '../services/api.goldberries';
-import { mergePlayerInfoStats, sortPlayers, generatePlayerChart } from "../services/celesteperformance";
+import { mergePlayerInfoStats, sortPlayers, generatePlayerChart, ppCalc } from "../services/celesteperformance";
 
 import { format, differenceInDays } from 'date-fns';
 import "./PlayerPage.css";
@@ -50,7 +50,7 @@ export default function PlayerPage() {
         .slice(0, pp_n)
         .map((c, i) => {
           const sort = c.challenge.difficulty.sort;
-          const ppRaw = 0.55 * (pp_x ** sort + pp_b * sort ** pp_x);
+          const ppRaw = ppCalc(pp_x, pp_b, sort);
           const ppWeighted = ppRaw * (pp_w ** i);
           const formattedDate = format(new Date(c.date_achieved), 'M/d/yyyy');
           const ago = differenceInDays(new Date(), new Date(c.date_achieved));

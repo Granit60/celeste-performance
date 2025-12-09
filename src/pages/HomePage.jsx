@@ -117,7 +117,7 @@ export default function HomePage() {
           {stats.total >= 10 && <p>Top 10 is {stats.top10}pp</p>}
           {stats.total >= 100 && <p>Top 100 is {stats.top100}pp</p>}
           {stats.total >= 1000 &&  <p>Top 1000 is {stats.top1000}pp</p>}
-          <p>Current PP System : {`x = ${pp_x} • w = ${pp_w} • n = ${pp_n} `} | <a href="/about#how">How does this work?</a></p>
+          <p>Current PP System : {`x = ${pp_x} • b = ${pp_b} • w = ${pp_w} • n = ${pp_n} `} | <a href="/about#how">How does this work?</a></p>
         </div>
         </>
         }

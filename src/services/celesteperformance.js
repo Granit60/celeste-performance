@@ -1,5 +1,8 @@
 import { differenceInMonths, differenceInYears } from "date-fns"; 
 
+export function ppCalc(pp_x, pp_b, t) {
+  return (pp_x ** t + pp_b * t ** pp_x + pp_b * t/2)
+}
 export function sortPlayers(players, difficulties, pp_x, pp_w, pp_n, pp_b) {
   const idToSortMap = {};
   difficulties.forEach(diff => {
@@ -21,7 +24,7 @@ export function sortPlayers(players, difficulties, pp_x, pp_w, pp_n, pp_b) {
     }
 
     const top = sortClears.sort((a, b) => b - a).slice(0, pp_n);
-    const ppValues = top.map((t, i) =>  0.55 * (pp_w ** i) * (pp_b * t  ** pp_x + pp_x ** t ));
+    const ppValues = top.map((t, i) =>  (pp_w ** i) * ppCalc(pp_x, pp_b, t));
     const total = ppValues.reduce((acc, curr) => acc + curr, 0);
 
     return {
