@@ -56,7 +56,7 @@ export default function AboutPage() {
                         <span className="offset">Current value : <span className="highlight">w = {pp_w}</span></span>
                     </li>
                     <li>
-                        i is the index of the clear in your top 10;
+                        i is the index of the clear in your top {pp_n};
                     </li>
                     <li>
                         n is the number of achievements taken into account (and how many appear on your profile).
@@ -72,7 +72,7 @@ export default function AboutPage() {
                 </p>
 
                 <h2>What is this made with?</h2>
-                <p>React (i'm bad at it. don't look at the code.)</p>
+                <p>React</p>
 
                 <h2>Cache deletion</h2>
                 <p>This website caches requests. If you just got a golden verified, clicking this will update your profile. </p>
