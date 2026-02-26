@@ -83,7 +83,7 @@ export function generatePlayerChart(clears, pp_x, pp_w, pp_n, pp_b) {
     
     graphData.push({
       x: c.date_achieved.substring(0,10), 
-      y: clearData.reduce((acc, curr, index) => acc + (pp_x ** curr  + pp_b * (pp_w ** index)), 0) //pp math
+      y: clearData.reduce((acc, curr, index) => acc + Math.round((ppCalc(pp_x, pp_b, curr)) * (pp_w ** index)), 0) //pp math
       })
     }
   })

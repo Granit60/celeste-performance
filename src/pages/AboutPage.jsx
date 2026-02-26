@@ -31,7 +31,7 @@ export default function AboutPage() {
                      your personal pp value through a decreasing weighted average. 
                      This means your #1 achievement is worth more than your #2, etc. </p>
                 <p>The exact values used for computing are subject to changes, but here are the formula, the variables and what they mean : </p>
-                <p className="highlight">{`total_pp = SUM(i=0, n-1, i++) { (x ^ t) + (b * t ^ x) + (b * t) * (w ^ i) }`}</p>
+                <p className="highlight">{`total_pp = SUM(i=0, n-1, i++) { ((x ^ t) + (b * t ^ x) + (b * t/2)) * (w ^ i) }`}</p>
                 <ul>
                     <li>
                         t is the tier of the clear;
@@ -63,11 +63,6 @@ export default function AboutPage() {
                         <br></br>
                         <span className="offset">Current value : <span className="highlight">n = {pp_n}</span></span>
                     </li>
-                </ul>
-                <h2>ToDo list!</h2>
-                <ul>
-                    <li>Make it responsive!! (do not attempt to load this website on a phone)</li>
-                    <li>Make the thing look nicer probably</li>
                 </ul>
                 <h2>Who made CelestePerformance?</h2>
                 <p>
