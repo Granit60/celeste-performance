@@ -77,10 +77,8 @@ export function generatePlayerChart(alltiers, pp_x, pp_w, pp_n, pp_b) {
       
       clearData.push(c.tier) // append tier top n
       clearData.sort((a,b) => { return b - a }) //reverse order for best to worst
-
-      console.log(clearData.length);
       
-      if (clearData.length >= pp_n) { clearData.pop() } //trim to keep top n only
+      if (clearData.length > pp_n) { clearData.pop() } //trim to keep top n only
       if (graphData.length > 0 && c.date_achieved.substring(0,10) == graphData.at(-1).x) { graphData.pop() } //if new peak on the same day, remove prev
       
       graphData.push({
