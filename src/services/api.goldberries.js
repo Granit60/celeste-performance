@@ -18,8 +18,9 @@ const fetchAndCache = async ( key, url, fname) => {
         var data = response.data;
         if (fname == "GBnPlayerSubmissions") {
             const nclears = Object.keys(data).length;
+            const alltiers = data.map((c) => ({tier: c.challenge.difficulty.sort, date_achieved: c.date_achieved}));
             const clears = data.sort((a, b) => { return b.challenge.difficulty.sort - a.challenge.difficulty.sort }).slice(0, 35);
-            data = { clears, nclears};
+            data = { clears, nclears, alltiers};
         }
         safeLocalStorage.setItem(key, JSON.stringify({ timestamp: Date.now(), data }));
         return data;

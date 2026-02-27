@@ -65,28 +65,30 @@ export function mergePlayerInfoStats(rankedPlayers, allPlayerInfo) {
 
 }
 
-export function generatePlayerChart(clears, pp_x, pp_w, pp_n, pp_b) {
-  const chronoClears = clears.sort((a, b) => {
+export function generatePlayerChart(alltiers, pp_x, pp_w, pp_n, pp_b) {
+  const chronoClears = alltiers.sort((a, b) => {
     return Date.parse(a.date_achieved) - Date.parse(b.date_achieved);
   });
 
   const clearData = []
   const graphData = []
   chronoClears.forEach((c) => {
-  if (clearData.length < pp_n || c.challenge.difficulty.sort > clearData.at(-1)) {
-    
-    clearData.push(c.challenge.difficulty.sort) // append tier top 10
-    clearData.sort((a,b) => { return b - a }) //reverse order for best to worst
-    
-    if (clearData.length > pp_n) { clearData.pop() } //trim to keep top 10 only
-    if (graphData.length > 0 && c.date_achieved.substring(0,10) == graphData.at(-1).x) { graphData.pop() } //if new peak on the same day, remove prev
-    
-    graphData.push({
-      x: c.date_achieved.substring(0,10), 
-      y: clearData.reduce((acc, curr, index) => acc + Math.round((ppCalc(pp_x, pp_b, curr)) * (pp_w ** index)), 0) //pp math
-      })
-    }
-  })
+    if (clearData.length < pp_n || c.tier > clearData.at(-1)) {
+      
+      clearData.push(c.tier) // append tier top n
+      clearData.sort((a,b) => { return b - a }) //reverse order for best to worst
+
+      console.log(clearData.length);
+      
+      if (clearData.length >= pp_n) { clearData.pop() } //trim to keep top n only
+      if (graphData.length > 0 && c.date_achieved.substring(0,10) == graphData.at(-1).x) { graphData.pop() } //if new peak on the same day, remove prev
+      
+      graphData.push({
+        x: c.date_achieved.substring(0,10), 
+        y: clearData.reduce((acc, curr, index) => acc + Math.round((ppCalc(pp_x, pp_b, curr)) * (pp_w ** index)), 0) //pp math
+        })
+      }
+    })
   graphData.push({x: Date.now(), y: graphData.at(-1).y })
 
   const dates = graphData.map(d => new Date(d.x));

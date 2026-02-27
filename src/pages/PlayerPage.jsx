@@ -46,6 +46,7 @@ export default function PlayerPage() {
       console.log(data);
       const nclears = data.nclears;
       const playerClears = data.clears;
+      const alltiers = data.alltiers;
 
       setStatus(`Sorting top ${pp_n}...`);
       const topClears = playerClears
@@ -107,7 +108,7 @@ export default function PlayerPage() {
 
       if (topClears.length > 1) {
         setStatus("Creating chart...")
-        const { options, data } = await generatePlayerChart(playerClears, pp_x, pp_w, pp_n, pp_b);
+        const { options, data } = await generatePlayerChart(alltiers, pp_x, pp_w, pp_n, pp_b);
         setChartData(data);
         setChartOptions(options)
       }
