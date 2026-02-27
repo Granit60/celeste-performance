@@ -15,7 +15,12 @@ const fetchAndCache = async ( key, url, fname) => {
 
     try {
         const response = await axios.get(url);
-        const data = response.data;
+        var data = response.data;
+        if (fname == "GBnPlayerSubmissions") {
+            const nclears = Object.keys(data).length;
+            const clears = data.sort((a, b) => { return b.challenge.difficulty.sort - a.challenge.difficulty.sort }).slice(0, 35);
+            data = { clears, nclears};
+        }
         safeLocalStorage.setItem(key, JSON.stringify({ timestamp: Date.now(), data }));
         return data;
     } catch (error) {

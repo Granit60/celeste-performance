@@ -39,11 +39,13 @@ export default function PlayerPage() {
       setPlayer(p);
 
       setStatus('Fetching player submissions...');
-      const playerClears = await GBnPlayerSubmissions(id);
-      if (!playerClears) {
+      const data = await GBnPlayerSubmissions(id);
+      if (!data) {
         setStatus("Error fetching player submissions. Try clearing cache."); return;
       }
-      const nclears = playerClears.length;
+      console.log(data);
+      const nclears = data.nclears;
+      const playerClears = data.clears;
 
       setStatus(`Sorting top ${pp_n}...`);
       const topClears = playerClears
