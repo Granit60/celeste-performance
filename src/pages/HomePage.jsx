@@ -6,7 +6,7 @@ import "./HomePage.css";
 
 export default function HomePage() {
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('id') ?? "__";
+  const country = searchParams.get('country') ?? "__";
   const input = searchParams.get('input') ?? "__";
   const page = searchParams.get('page') ?? 1;
 
@@ -44,7 +44,7 @@ export default function HomePage() {
       setStatus('Calculating players performance...');
       const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n, pp_b);
       const merged = mergePlayerInfoStats(result, allPlayerInfo);
-      const sorted = (id == "__") ? merged : merged.filter((p) => p.player.account.country == id) ;
+      const sorted = (country == "__") ? merged : merged.filter((p) => p.player.account.country == country) ;
       const sorted2 = (input == "__") ? sorted : sorted.filter((p) => p.player.account.input_method == input);
       const reduced = sorted2.map((p) => ({...p, 
         clears: p.clears.reduce((acc, num) => {acc[num] = (acc[num] || 0) + 1; return acc;}, {}) }));
@@ -77,20 +77,20 @@ export default function HomePage() {
       setStatus(reduced.length > 0 ? '' : 'No players found.');
     }
     fetchData();
-  }, [id, input, page]);
+  }, [country, input, page]);
 
   return (
     <section className="home">
       <div className="landing">
         <p>Country : 
-          <select value={id} onChange={(e) => { navigate(`${import.meta.env.BASE_URL}leaderboard?id=${e.target.value}&input=${input}`) }}>
+          <select value={country} onChange={(e) => { navigate(`${import.meta.env.BASE_URL}leaderboard?country=${e.target.value}&input=${input}`) }}>
               {countries.map((c) => (
               <option value={c.code} key={c.code}>{ c.label }</option>
             ))}
           </select>
         </p>
          <p>Input method : 
-          <select value={input} onChange={(e) => { navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&input=${e.target.value}`) }}>
+          <select value={input} onChange={(e) => { navigate(`${import.meta.env.BASE_URL}leaderboard?country=${country}&input=${e.target.value}`) }}>
               {inputs.map((l) => (
               <option value={l} key={l}>{(l == "__") ? "(Any)" : l}</option>
             ))}
