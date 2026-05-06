@@ -5,17 +5,23 @@
 .home {
     height: 90%;
     .landing {
+        .filters {
+            display: flex;
+            p { 
+                width: 20%;
+                select {
+                    padding: 1%;
+                    margin-left: .5%;
+                    background-color: variables.$col-brand-1;
+                    color: variables.$col-bg-1;
+                    border: 1px solid variables.$col-bg-1;
+                    border-radius: 4px;
+                }
+            }
+        }
         @include mixin.landing();
         h2 {
             @include mixin.horizontalSeparator();
-        }
-        p select {
-            padding: .2%;
-            margin-left: .5%;
-            background-color: variables.$col-brand-1;
-            color: variables.$col-bg-1;
-            border: 1px solid variables.$col-bg-1;
-            border-radius: 4px;
         }
         .page {
             text-align: center;

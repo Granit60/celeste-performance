@@ -82,27 +82,29 @@ export default function HomePage() {
   return (
     <section className="home">
       <div className="landing">
-        <p>Country : 
-          <select value={country} onChange={(e) => { navigate(`${import.meta.env.BASE_URL}leaderboard?country=${e.target.value}&input=${input}`) }}>
-              {countries.map((c) => (
-              <option value={c.code} key={c.code}>{ c.label }</option>
-            ))}
-          </select>
-        </p>
-         <p>Input method : 
-          <select value={input} onChange={(e) => { navigate(`${import.meta.env.BASE_URL}leaderboard?country=${country}&input=${e.target.value}`) }}>
-              {inputs.map((l) => (
-              <option value={l} key={l}>{(l == "__") ? "(Any)" : l}</option>
-            ))}
-          </select>
-        </p>
+        <div className="filters">
+          <p>Country :&nbsp;
+            <select value={country} onChange={(e) => { navigate(`${import.meta.env.BASE_URL}leaderboard?country=${e.target.value}&input=${input}`) }}>
+                {countries.map((c) => (
+                <option value={c.code} key={c.code}>{ c.label }</option>
+              ))}
+            </select>
+          </p>
+          <p>Input method :&nbsp;
+            <select value={input} onChange={(e) => { navigate(`${import.meta.env.BASE_URL}leaderboard?country=${country}&input=${e.target.value}`) }}>
+                {inputs.map((l) => (
+                <option value={l} key={l}>{(l == "__") ? "(Any)" : l}</option>
+              ))}
+            </select>
+          </p>
+        </div>
         <p className="status">{status}</p>
         {players && status == '' &&
         <>
         <p className="page">
-          <a  className={ page <= 1 ? "hidden" : ""} onClick = {() => { if (page > 1) navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&page=${parseInt(page)-1}`) }}>Prev |</a> 
+          <a  className={ page <= 1 ? "hidden" : ""} onClick = {() => { if (page > 1) navigate(`${import.meta.env.BASE_URL}leaderboard?country=${country}&input=${input}&page=${parseInt(page)-1}`) }}>Prev |</a> 
           <span> {page} </span>
-          <a className={ (offset + 10 >= stats.total) ? "hidden" : ""} onClick = {() => { if (offset + 10 < stats.total) navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&page=${parseInt(page)+1}`) }}>| Next</a>
+          <a className={ (offset + 10 >= stats.total) ? "hidden" : ""} onClick = {() => { if (offset + 10 < stats.total) navigate(`${import.meta.env.BASE_URL}leaderboard?country=${country}&input=${input}&page=${parseInt(page)+1}`) }}>| Next</a>
         </p>
         <h2></h2>
         <table className="leaderboard">
