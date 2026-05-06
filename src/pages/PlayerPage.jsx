@@ -137,6 +137,8 @@ export default function PlayerPage() {
             </div>
           </div>
 
+          {clears.length > 1 &&
+          <>
           <h2>Top Clears Showcase</h2>
           <div className="tier-container">
             {Object.entries(groupedClears).reverse().map(([k, v]) => (
@@ -167,6 +169,8 @@ export default function PlayerPage() {
               ))}
             </tbody>
           </table>
+          </>
+          }
 
           {clears.length > 1 && chartData && chartOptions && (
             <>
