@@ -6,8 +6,9 @@ import "./HomePage.css";
 
 export default function HomePage() {
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('id') ?? "__"
-  const page = searchParams.get('page') ?? 1
+  const id = searchParams.get('id') ?? "__";
+  const input = searchParams.get('input') ?? "__";
+  const page = searchParams.get('page') ?? 1;
 
   const offset = (page - 1) * 10;
 
@@ -15,8 +16,9 @@ export default function HomePage() {
   
   const [players, setPlayers] = useState([]);
   const [countries, setCountries] = useState([]);
+  const [inputs, setInputs] = useState([]);
   const [stats, setStats] = useState({});
-  const [status, setStatus] = useState('Loading leaderboard...');;
+  const [status, setStatus] = useState('Loading leaderboard...');
 
   const pp_x = parseFloat( import.meta.env.VITE_PP_X);
   const pp_w = parseFloat(import.meta.env.VITE_PP_W);
@@ -42,8 +44,9 @@ export default function HomePage() {
       setStatus('Calculating players performance...');
       const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n, pp_b);
       const merged = mergePlayerInfoStats(result, allPlayerInfo);
-      const sorted = (id == "__") ? merged : merged.filter((p) => ( p.player.account.country == id)) ;
-      const reduced = sorted.map((p) => ({...p, 
+      const sorted = (id == "__") ? merged : merged.filter((p) => p.player.account.country == id) ;
+      const sorted2 = (input == "__") ? sorted : sorted.filter((p) => p.player.account.input_method == input);
+      const reduced = sorted2.map((p) => ({...p, 
         clears: p.clears.reduce((acc, num) => {acc[num] = (acc[num] || 0) + 1; return acc;}, {}) }));
 
       const regionNames = new Intl.DisplayNames(['en'], { type: "region"});
@@ -51,6 +54,16 @@ export default function HomePage() {
       const countriesLabels = countriesTemp.map((c) => { return ({ code: c, label:  c!="__" ? regionNames.of(c.toUpperCase()) : "World" }) })
       const countriesSorted = (countriesLabels.sort((a, b) => a.label.localeCompare(b.label)));
       countriesSorted.unshift(countriesSorted.pop()); //put last "World" in first
+
+      const inputTemp = merged.reduce((acc, p) => {
+        const method = p.player.account.input_method;
+        acc[method] = (acc[method] || 0) + 1;
+        return acc;
+      }, {});
+      const inputLabels = ["__"].concat(Object.entries(inputTemp)
+        .sort((a, b) => b[1] - a[1])
+        .map(([label]) => label)
+      );
 
       setStats({
         total: reduced.length,
@@ -60,24 +73,32 @@ export default function HomePage() {
       });
       setPlayers(reduced.slice(offset, offset + 10));
       setCountries(countriesSorted);
+      setInputs(inputLabels);
       setStatus(reduced.length > 0 ? '' : 'No players found.');
     }
     fetchData();
-  }, [id, page]);
+  }, [id, input, page]);
 
   return (
     <section className="home">
       <div className="landing">
-        <p className="status">{status}</p>
-        {players && status == '' &&
-        <>
         <p>Country : 
-          <select value={id} onChange={(e) => { navigate(e.target.value == "__" ? "/" : `${import.meta.env.BASE_URL}leaderboard?id=${e.target.value}`) }}>
+          <select value={id} onChange={(e) => { navigate(`${import.meta.env.BASE_URL}leaderboard?id=${e.target.value}&input=${input}`) }}>
               {countries.map((c) => (
               <option value={c.code} key={c.code}>{ c.label }</option>
             ))}
           </select>
         </p>
+         <p>Input method : 
+          <select value={input} onChange={(e) => { navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&input=${e.target.value}`) }}>
+              {inputs.map((l) => (
+              <option value={l} key={l}>{(l == "__") ? "(Any)" : l}</option>
+            ))}
+          </select>
+        </p>
+        <p className="status">{status}</p>
+        {players && status == '' &&
+        <>
         <p className="page">
           <a  className={ page <= 1 ? "hidden" : ""} onClick = {() => { if (page > 1) navigate(`${import.meta.env.BASE_URL}leaderboard?id=${id}&page=${parseInt(page)-1}`) }}>Prev |</a> 
           <span> {page} </span>

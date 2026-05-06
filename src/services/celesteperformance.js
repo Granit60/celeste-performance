@@ -47,19 +47,21 @@ export function mergePlayerInfoStats(rankedPlayers, allPlayerInfo) {
   });
 
   const enrichedPlayers = rankedPlayers.map(player => {
-  const fullInfo = playerInfoMap[player.id];
-  const country = fullInfo?.account?.country || '__'; // '__' fallback
+    const fullInfo = playerInfoMap[player.id];
+    const country = fullInfo?.account?.country || '__'; // '__' fallback
+    const input_method = fullInfo?.account?.input_method || "(Unspecified)";
 
-  return {
-    ...player,
-    player: {
-      ...player.player,
-      account: {
-        ...player.player.account,
-        country,
+    return {
+      ...player,
+      player: {
+        ...player.player,
+        account: {
+          ...player.player.account,
+          country,
+          input_method,
+          }
         }
-      }
-    };
+      };
   });
   return enrichedPlayers;
 
