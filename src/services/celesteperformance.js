@@ -37,7 +37,11 @@ export function sortPlayers(players, difficulties, pp_x, pp_w, pp_n, pp_b) {
   });
 
   rankedPlayers.sort((a, b) => b.pp_total - a.pp_total);
-  return rankedPlayers;
+  const rankedPlayers2 = rankedPlayers.map((p, i) => ({
+    ...p,
+    globalrank: i + 1
+  }));
+  return rankedPlayers2;
 }
 
 export function mergePlayerInfoStats(rankedPlayers, allPlayerInfo) {

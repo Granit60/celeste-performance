@@ -43,6 +43,7 @@ export default function HomePage() {
 
       setStatus('Calculating players performance...');
       const result = sortPlayers(allPlayers, difficulties, pp_x, pp_w, pp_n, pp_b);
+      console.log(result);
       const merged = mergePlayerInfoStats(result, allPlayerInfo);
       const sorted = (country == "__") ? merged : merged.filter((p) => p.player.account.country == country) ;
       const sorted2 = (input == "__") ? sorted : sorted.filter((p) => p.player.account.input_method == input);
@@ -114,14 +115,14 @@ export default function HomePage() {
               <th style={{width: "2%"}}></th>
               <th style={{width: "20%"}}>Player</th>
               <th style={{width: "10%"}}>PP</th>
-              <th style={{width: "40%"}}>Top Clears (#{pp_n})</th>
+              <th style={{width: "37%"}}>Top Clears (#{pp_n})</th>
               <th style={{width: "20%"}}>Number of Clears</th>
             </tr>
           </thead>
           <tbody>
             {players.map((p, i) => (
               <tr key={p.player.id}>
-                <td>#{i + 1 + offset}</td>
+                <td>#{p.globalrank}</td>
                 <td>{p.player.account.country != "__" && <span title={p.player.account.country} className={`fi fi-${p.player.account.country}`}></span>}</td>
                 <td><a href={`/player/${p.player.id}`}> {p.player.name}</a> </td>
                 <td>{p.pp_total.toFixed(0)}</td>
