@@ -111,18 +111,18 @@ export default function HomePage() {
         <table className="leaderboard">
           <thead>
             <tr>
-              <th style={{width: "3%"}}></th>
+              <th style={{width: !(country=="__" && input=="__") ? "8%" : "3%" }}></th>
               <th style={{width: "2%"}}></th>
               <th style={{width: "20%"}}>Player</th>
               <th style={{width: "10%"}}>PP</th>
-              <th style={{width: "37%"}}>Top Clears (#{pp_n})</th>
+              <th style={{width: "40%"}}>Top Clears (#{pp_n})</th>
               <th style={{width: "20%"}}>Number of Clears</th>
             </tr>
           </thead>
           <tbody>
             {players.map((p, i) => (
               <tr key={p.player.id}>
-                <td>#{p.globalrank}</td>
+                <td>#{i + 1 + offset} {!(country=="__" && input=="__") && <>(#{p.globalrank})</>}</td>
                 <td>{p.player.account.country != "__" && <span title={p.player.account.country} className={`fi fi-${p.player.account.country}`}></span>}</td>
                 <td><a href={`/player/${p.player.id}`}> {p.player.name}</a> </td>
                 <td>{p.pp_total.toFixed(0)}</td>
